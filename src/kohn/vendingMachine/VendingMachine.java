@@ -3,7 +3,7 @@ package kohn.vendingMachine;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 
-public class VendingMaching {
+public class VendingMachine {
     
 	
 	//statics are not allowed in methods or variables
