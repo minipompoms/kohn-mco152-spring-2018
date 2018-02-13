@@ -8,19 +8,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Scanner;
+import java.util.SortedMap;
 
 public class DictionaryApp {
-	/**
-	 * @param args
-	 */
-	public static void main (String [] args)
-	{
-		Map<String, String> dictionary = new HashMap<String, String>();    
-		Collection <String> words = new ArrayList<>();
 
+	public static void main (String [] args){
+		
+		Map<String, String> dictionary = new HashMap<String, String>();    
+		Dictionary x = new Dictionary("src/dictionary.txt");
 		try {
 	           BufferedReader readFile = new BufferedReader(new FileReader
 	        		   ("src/dictionary.txt"));
@@ -33,7 +29,7 @@ public class DictionaryApp {
 	        		   String aWord = split[0].toString();
 	        		   
 	        		   String definition = line.substring(aWord.length());
-	        		   words.add(aWord);
+	        		   
 	        		   dictionary.put(aWord, definition);
 	        		   
 	        		   line = readFile.readLine();
@@ -52,14 +48,28 @@ public class DictionaryApp {
 			}
 		 ArrayList<String> dict = new ArrayList<String>(dictionary.keySet());
 		 
+		 
 		 Collections.sort(dict);
-		 for (int ix = 0; ix < dict.size(); ix++) {
+		 for (int ix = 0; ix < 43; ix++) {
 			 String word = (String) dict.get(ix);
 			 String def = (String)dictionary.get(word);
 			 System.out.println(word+" "+def);
 		 }
-	
 		
-	      
+		 /*for(String word: dictionary.keySet())
+          
+			 System.out.println(word + ": " + dictionary.get(word));*/
+		 
+		 if( x.contains("AA")){
+			 System.out.println("found");
+		 }
+		 else {
+			 System.out.println("not found");
+		 }
+		 if(x.isEmpty()) {
+			 System.out.println("nothing");
+		 }
+		
 	}
+	
 }

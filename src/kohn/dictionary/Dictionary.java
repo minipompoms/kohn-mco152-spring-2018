@@ -14,52 +14,83 @@ import java.util.Map;
 public class Dictionary {
 	
 	private Map<String, String> dictionary = new HashMap<String, String>(); 
-	private 	Collection <String> words = new ArrayList<>();
+	ArrayList<String> words = new ArrayList<String>(dictionary.keySet());
+
 
 	//constructor
 	public Dictionary(String fileName) {
+		String word = null;
 		
-		Map<String, String> dictionary = new HashMap<String, String>();    
+		
 		try {
-	           BufferedReader readFile = new BufferedReader(new FileReader
-	        		   ("src/dictionary.txt"));
-	           String line = readFile.readLine();	  		     		  
-	           while (line != null) {	        	   
+	           BufferedReader readFile = new BufferedReader(new FileReader(fileName));
+	           String line = readFile.readLine();	  
+	           
+	           while (line != null) {	   
+	        	   
 	        	   String [] split = line.split("\\s+");
 	        	   
 	        	   if (Character.isUpperCase(line.charAt(0))) {	       
-	        		   String word = split[0].toString();
+	        		    word = split[0].toString();
 	        		   String definition = line.substring(word.length());
-	        		   words.add(word);
 	        		   dictionary.put(word, definition);	        		   
 	        		   line = readFile.readLine();
+	        		   
+	        		   
 	        	   }
 	        	   else {
 	        		   line = readFile.readLine();
-	        	   }
-	        	   		
+	        		   
+	        	   }	        	   		
 	           }
-	        	   
+	        	  
 	        } catch (FileNotFoundException ex) {
 	            System.out.println("Exception: file not found " + ex);
 			} catch (IOException e) {				
 				e.printStackTrace();
-			}
-	        
-	   
-	}
-	
-	public boolean contains(String word) {
-		if (words == null){
-			return false;
-		}
-		return true;
+				
+			}		
+		
 		
 	}
 	
+	
+	public boolean contains(String word) {
+		
+		if (dictionary.isEmpty()){
+			return false;
+		}
+		
+		return dictionary.containsKey(word);	
+		
+	}
+	
+	public boolean isEmpty() {
+		
+		return dictionary.isEmpty();
+	}
+	
+	
 	public String getDefinition(String word) {
 		String definition = null;
+	
+		if (contains(word)) {
+			definition = dictionary.get(word);
+		}		
 		return definition;
 	}
+	
+//	@Override
+//	public String toString() {
+//		StringBuilder sb = new StringBuilder();
+//		for (int ix = 0; ix < dictionary.size(); ix++)
+//		{
+//			
+//			
+//			sb.append((String)dictionary.get(key));
+//		}
+//		return sb.toString();
+		
+	
 
 }
