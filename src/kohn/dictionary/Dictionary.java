@@ -14,10 +14,8 @@ import java.util.Map;
 public class Dictionary {
 	
 	private Map<String, String> dictionary = new HashMap<String, String>(); 
-	ArrayList<String> words = new ArrayList<String>(dictionary.keySet());
+	
 
-
-	//constructor
 	public Dictionary(String fileName) {
 		String word = null;
 		
@@ -53,8 +51,7 @@ public class Dictionary {
 		
 		
 	}
-	
-	
+
 	public boolean contains(String word) {
 		
 		if (dictionary.isEmpty()){
@@ -80,17 +77,13 @@ public class Dictionary {
 		return definition;
 	}
 	
-//	@Override
-//	public String toString() {
-//		StringBuilder sb = new StringBuilder();
-//		for (int ix = 0; ix < dictionary.size(); ix++)
-//		{
-//			
-//			
-//			sb.append((String)dictionary.get(key));
-//		}
-//		return sb.toString();
-		
+	public ArrayList<String> getWords()
+	{
+		ArrayList<String> words = new ArrayList<String>(dictionary.keySet());
+		Collections.sort(words);
+		return words;
+	}
+
 	
 
 }
