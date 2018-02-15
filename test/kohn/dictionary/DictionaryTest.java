@@ -17,14 +17,15 @@ public class DictionaryTest {
 	@Test
 	public void testContain() {
 		
-		String word = "CYCLIST";
+		String word = "cyclist".toUpperCase();
 		assertTrue(word, dictionary.contains(word));
 	}
 
 	@Test
 	public void testDefinition()
 	{
+		String word = "cyclist".toUpperCase();
 		String definition = " one who rides a bicycle [n -S]";
-		assertEquals(definition, dictionary.getDefinition("CYCLIST"));
+		assertEquals(definition, dictionary.getDefinition(word));
 	}
 }

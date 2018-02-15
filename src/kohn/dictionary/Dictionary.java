@@ -28,7 +28,7 @@ public class Dictionary {
 	        	   
 	        	   String [] split = line.split("\\s+");
 	        	   
-	        	   if (Character.isUpperCase(line.charAt(0))) {	       
+	        	   if (Character.isUpperCase(line.charAt(0))) {	        
 	        		    word = split[0].toString();
 	        		   String definition = line.substring(word.length());
 	        		   dictionary.put(word, definition);	        		   
