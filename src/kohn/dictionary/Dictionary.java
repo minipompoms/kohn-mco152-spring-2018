@@ -18,8 +18,7 @@ public class Dictionary {
 
 	public Dictionary(String fileName) {
 		String word = null;
-		
-		
+				
 		try {
 	           BufferedReader readFile = new BufferedReader(new FileReader(fileName));
 	           String line = readFile.readLine();	  
@@ -29,7 +28,7 @@ public class Dictionary {
 	        	   String [] split = line.split("\\s+");
 	        	   
 	        	   if (Character.isUpperCase(line.charAt(0))) {	        
-	        		    word = split[0].toString();
+	        		   word = split[0].toString();
 	        		   String definition = line.substring(word.length());
 	        		   dictionary.put(word, definition);	        		   
 	        		   line = readFile.readLine();
@@ -77,8 +76,7 @@ public class Dictionary {
 		return definition;
 	}
 	
-	public ArrayList<String> getWords()
-	{
+	public ArrayList<String> getWords(){
 		ArrayList<String> words = new ArrayList<String>(dictionary.keySet());
 		Collections.sort(words);
 		return words;
