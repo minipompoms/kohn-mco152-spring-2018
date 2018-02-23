@@ -1,5 +1,7 @@
 package kohn.physics;
 
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,22 +15,35 @@ import javax.swing.JTextField;
 public class ProjectileGui extends JFrame{
 	
 	public ProjectileGui() {
+		
 		setTitle("Projectile Viewer");
 		setSize(800, 600);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		//component is superclass of all UI elements
 		JPanel panel = new JPanel();
-		panel.add(new JLabel("Hello World"));
-		panel.add(new JTextField("Text Field"));
-		panel.add (new JButton("Button"));
+		panel.setLayout(new BorderLayout());
+
+		JPanel northPanel = new JPanel();
+		northPanel.add(new JLabel ("Hello World"));
+		northPanel.add(new JLabel ("GoodBye World"));
+		panel.add(northPanel, BorderLayout.NORTH);
+
+		JTextField textField = new JTextField("Text Field");
+		panel.add(textField, BorderLayout.WEST);
+
+		
 		JButton button = new JButton("Button");
 		button.addActionListener(new ActionListener() {
-		
-		@Override
-		public void actionPerformed(ActionEvent event) {
 			
-		}});
-		panel.add(button);
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				textField.setText("Action Performed");
+		}
+		});
+		
+		panel.add(button, BorderLayout.CENTER);
+		panel.add(new JLabel("Can we take a break?"), BorderLayout.SOUTH);
+		
 		add(panel);
 	}
 	
