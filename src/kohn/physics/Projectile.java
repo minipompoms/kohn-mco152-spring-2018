@@ -6,7 +6,7 @@ public class Projectile {
 	private double angle;
 	private double time;
 	
-	public Projectile(double velocity, double angle)
+	public Projectile(double angle, double velocity)
 	{
 		this.velocity = velocity;
 		this.angle = angle;

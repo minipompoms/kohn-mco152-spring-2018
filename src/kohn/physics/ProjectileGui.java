@@ -2,120 +2,166 @@ package kohn.physics;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Scanner;
-
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.NumberFormat;
+import javax.swing.BorderFactory;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
-
-public class ProjectileGui extends JFrame{
+@SuppressWarnings("serial")
+public class ProjectileGui extends JPanel implements PropertyChangeListener{
 	
-	private JTextField textField;
+	
+	private double angle;
+	private double velocity;
+	private double time;
+	
+	private double x;
+	private double y;
+	Projectile projectile; 
+	
+	private String angleStr = "Angle:";
+	private String velocityStr = "Velocity:";
+	private String timeStr = "Time:";
+	private String xStr = "X -> ";
+	private String yStr = "Y -> ";
+	
+	private JFormattedTextField angleField;
+	private JFormattedTextField velocityField;
+	private JFormattedTextField timeField;
+	private JFormattedTextField xField;
+	private JFormattedTextField yField;
+	
+	private NumberFormat angleFormat;
+	private NumberFormat velocityFormat;
+	
 	public ProjectileGui() {
 		
-	
 		
-		
-		JPanel pane = new JPanel();	
-	
-		
-		
-		
-		
-		//button.addActionListener(this::changeTextField);		
-		//component is superclass of all UI elements
-		//panel.setLayout(new GridLayout());
-		//panel.setLayout(new BorderLayout());
-		//JPanel panel = new JPanel();
-		//JButton button = new JButton("Calculate:"); //supposed to do on auto
-		//panel.add(button, BorderLayout.CENTER);
-		//panel.add(new JLabel (" Angle "));
-		//panel.add(pane, BorderLayout.NORTH);
-		//panel.add(new JLabel("Can we take a break?"), BorderLayout.SOUTH);
-		
-		addComponentsToPane(pane);
-	}
-	 public void addComponentsToPane(Container pane) {
-		 
-		setTitle("Projectile Viewer");
-		setSize(200, 300);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		pane.setLayout(new GridLayout(6, 6));
-		pane.setBackground(Color.BLACK);
-		pane.setBounds(6, 8, 2, 2);
-		//pane.setLayout(new BoxLayout(pane, BoxLayout.X_AXIS));
-		String a = "25";
-		String v = "30";
-		String t = "1:00";
-		String x = "";
-		String y = "";
-		addAButton(" Angle ", pane);
-		addAField(a, pane);
-		addAButton(" Velocity ", pane);		
-		addAField(v, pane);
-		addAButton(" Time ", pane);
-		addAField(t, pane);
-		addAField("Coordinates", pane);
-		addAField("", pane);
+		super(new BorderLayout());
+		Projectile projectile = new Projectile(angle, velocity);
 
-		addAButton("  X  ", pane);
-		addAField(x, pane);
-		addAButton("  Y  ", pane);
-		addAField(y, pane);
-        
-		add(pane);
-	
-			
-	 }
-	
-	private static void addAField(String value, Container pane) {
+		setUpFormats();
 		
-        JTextField numberField = new JTextField(value);		
-        //numberField.setAlignmentY( Component.RIGHT_ALIGNMENT);
-        pane.add(numberField);
-    }
-	
-	private static void addAButton(String text, Container container) {
-        JButton button = new JButton(text);
-        Dimension buttonSize = button.getPreferredSize();
-       
-        container.add(button);
-    }
-	
-	public void changeTextField(ActionEvent event) {
-		textField.setText("Action Performed");
+		JLabel angleLabel = new JLabel(angleStr);
+		JLabel velocityLabel = new JLabel(velocityStr);
+		JLabel timeLabel = new JLabel(timeStr);		
+		JLabel xLabel = new JLabel(xStr);
+		JLabel yLabel = new JLabel (yStr);
+		
+		angleField = new JFormattedTextField(angle);
+		angleField.setColumns(5);
+		projectile.setAngle(72);
+		angleField.setValue(projectile.getAngle());
+		angleField.addPropertyChangeListener("value", this);
+		
+		velocityField = new JFormattedTextField(velocity);
+		velocityField.setColumns(5);
+		projectile.setVelocity(23);
+		velocityField.setValue(projectile.getVelocity());
+		velocityField.addPropertyChangeListener("value", this);	
+		
+		timeField = new JFormattedTextField(time);
+		timeField.setColumns(5);
+		projectile.setTime(10);
+		timeField.setValue(projectile.getTime());
+		timeField.addPropertyChangeListener("value", this);
+		
+		xField = new JFormattedTextField(x);
+		xField.setColumns(5);
+		xField.setValue(projectile.getX());
+		xField.setEditable(false);
+		
+		yField = new JFormattedTextField(y);
+		yField.setColumns(5);
+		yField.setValue(projectile.getY());
+		yField.setEditable(false);
+		
+		
+		angleLabel.setLabelFor(angleField);
+		velocityLabel.setLabelFor(velocityField);
+		timeLabel.setLabelFor(timeField);
+		xLabel.setLabelFor(xField);
+		yLabel.setLabelFor(yField);
+		
+		
+		JPanel labelPane = new JPanel(new GridLayout(0,1));
+		
+		
+		
+		labelPane.add(angleLabel);
+		labelPane.add(velocityLabel);
+		labelPane.add(timeLabel);
+		labelPane.add(new JLabel(" "));
+		labelPane.add(xLabel);
+		labelPane.add(yLabel);
+
+		JPanel fieldPane = new JPanel(new GridLayout(0,1));
+		fieldPane.add(angleField);
+		fieldPane.add(velocityField);
+		fieldPane.add(timeField);
+		fieldPane.add(new JLabel(" COORDINATES"));
+		fieldPane.add(xField);
+		fieldPane.add(yField);
+		
+		setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+		add(labelPane, BorderLayout.CENTER);
+		add(fieldPane, BorderLayout.LINE_END);
+		
 	}
 	
+	public void setUpFormats() {
+		angleFormat = NumberFormat.getNumberInstance();
+		velocityFormat = NumberFormat.getNumberInstance();
+	}
+	@Override
+	public void propertyChange(PropertyChangeEvent e) {
+		
+		Object o = e.getSource();
+		if(o == angleField) {
+			angle = ((Number)angleField.getValue()).doubleValue();
+		} else if (o == velocityField) {
+			velocity = ((Number)velocityField.getValue()).doubleValue();
+		} else if (o == timeField) {
+			time = ((Number)timeField.getValue()).doubleValue();
+		}
+
+		double xO = projectile.getX();
+		xField.setValue(new Double(xO));
+		double yO = projectile.getY();
+		yField.setValue(new Double (yO));
+		
+		
+	}
+	
+	public static void showGUI() {
+		
+		JFrame frame = new JFrame("ProjectileGui");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		frame.add(new ProjectileGui());
+		frame.pack();
+		
+		frame.setVisible(true);
+	}
 	public static void main (String args[]) {
-		new ProjectileGui().setVisible(true);
+		
+		SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+		showGUI();
+            }
+		});
 	}
 	
-	/*private void createAndShowGUI() {
-        //Create and set up the window.
-        JFrame frame = new JFrame("BoxLayoutDemo");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
- 
-        //Set up the content pane.
-        addComponentsToPane(frame.getContentPane());
- 
-        //Display the window.
-        frame.pack();
-        frame.setVisible(true);
-    }*/
+	
+	
 
-	
-	
 	
 	
 }

@@ -9,7 +9,7 @@ public class Physics {
 	public static void main(String[] args) {
 	
 		int time;
-		Projectile x = new Projectile(23, 72);
+		Projectile x = new Projectile(72, 23);
 		
 	
 		
