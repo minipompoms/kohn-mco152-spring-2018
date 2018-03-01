@@ -10,7 +10,7 @@ public class ChangeTest {
 
 	@Test
 	public void testChange() { 
-		Change change = new Change(.99);
+		Change change = new Change(2.00, 1.50);
 		
 		assertEquals(3, change.getQuarters());
 		assertEquals(2, change.getDimes());
