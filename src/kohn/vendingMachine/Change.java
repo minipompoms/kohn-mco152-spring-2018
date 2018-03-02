@@ -1,6 +1,5 @@
 package kohn.vendingMachine;
 
-import java.text.DecimalFormat;
 
 public class Change {
 	private int quarters;
