@@ -125,15 +125,7 @@ public class ProjectileGui extends JPanel implements PropertyChangeListener {
 		yField.setValue(new Double(updateY));
 	}
 
-	public static void showGUI() {
 
-		JFrame frame = new JFrame("ProjectileGui");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.add(new ProjectileGui());
-		frame.pack();
-
-		frame.setVisible(true);
-	}
 
 	public static void main(String args[]) {
 
@@ -143,5 +135,13 @@ public class ProjectileGui extends JPanel implements PropertyChangeListener {
 			}
 		});
 	}
+	public static void showGUI() {
 
+		JFrame frame = new JFrame("ProjectileGui");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.add(new ProjectileGui());
+		frame.pack();
+
+		frame.setVisible(true);
+	}
 }

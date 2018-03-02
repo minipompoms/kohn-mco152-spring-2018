@@ -44,6 +44,7 @@ public class VendingMachineGui extends JFrame implements ActionListener {
 
 		Change change = new Change(price, paid);
 		change.receiveChange();
+		
 		JLabel priceLabel = new JLabel("Price:");
 		JLabel paidLabel = new JLabel("Amt Paid:");
 		JLabel getQuarters = new JLabel("Quarters:");
@@ -60,6 +61,7 @@ public class VendingMachineGui extends JFrame implements ActionListener {
 		priceField.setColumns(5);
 		priceField.setValue(price);
 		priceField.addActionListener(this);
+		priceField.isFocusable();
 
 		paidField = new JFormattedTextField(paid);
 		paidField.setColumns(5);
