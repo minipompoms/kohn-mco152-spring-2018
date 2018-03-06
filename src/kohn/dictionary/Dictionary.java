@@ -12,10 +12,10 @@ import java.util.Scanner;
 public class Dictionary {
 	
 	private Map<String, String> dictionary = new HashMap<String, String>(); 
-	
+	private String word;
 
 	public Dictionary(String fileName) {
-		String word = null;
+		
 			
 		try {
 			   FileReader read = new FileReader(fileName);
@@ -45,6 +45,13 @@ public class Dictionary {
 		return dictionary.isEmpty();
 	}
 	
+	public void setWord(String word) {
+		this.word = word;
+	}
+	
+	public String getWord() {
+		return this.word;
+	}
 	
 	public String getDefinition(String word) {
 		String definition = null;

@@ -60,33 +60,28 @@ public class VendingMachineGui extends JFrame implements ActionListener {
 		priceField = new JFormattedTextField(price);
 		priceField.setColumns(5);
 		priceField.setValue(price);
-		priceField.addActionListener(this);
 		priceField.isFocusable();
 
 		paidField = new JFormattedTextField(paid);
 		paidField.setColumns(5);
 		paidField.setValue(paid);
-		paidField.addActionListener(this);
 
 		quartersField = new JFormattedTextField(quarters);
 		quartersField.setColumns(5);
 		quartersField.setValue(change.getQuarters());
-		quartersField.addActionListener(this);
 
 		dimesField = new JFormattedTextField(dimes);
 		dimesField.setColumns(5);
 		dimesField.setValue(change.getDimes());
-		dimesField.addActionListener(this);
 
 		nickelsField = new JFormattedTextField(nickels);
 		nickelsField.setColumns(5);
 		nickelsField.setValue(change.getNickels());
-		nickelsField.addActionListener(this);
 
 		penniesField = new JFormattedTextField(pennies);
 		penniesField.setColumns(5);
 		penniesField.setValue(change.getPennies());
-		penniesField.addActionListener(this);
+		
 
 		priceLabel.setLabelFor(priceField);
 		paidLabel.setLabelFor(paidField);
@@ -135,19 +130,19 @@ public class VendingMachineGui extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		DecimalFormat df = new DecimalFormat("##.##");
+		
 		double updatePrice = (double) priceField.getValue();
 		double updatePaid = (double) paidField.getValue();
 		Change receiveChange = new Change(updatePrice, updatePaid);
 		receiveChange.receiveChange();
 		double updateQ = receiveChange.getQuarters();
-		quartersField.setValue(new Double(df.format(updateQ)));
+		quartersField.setValue(new Double(updateQ));
 		double updateD = receiveChange.getDimes();
-		dimesField.setValue(new Double(df.format(updateD)));
+		dimesField.setValue(new Double(updateD));
 		double updateN = receiveChange.getNickels();
-		nickelsField.setValue(new Double(df.format(updateN)));
+		nickelsField.setValue(new Double(updateN));
 		double updateP = receiveChange.getPennies();
-		penniesField.setValue(new Double(df.format(updateP)));
+		penniesField.setValue(new Double(updateP));
 
 	}
 
