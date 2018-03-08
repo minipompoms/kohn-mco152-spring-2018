@@ -141,7 +141,7 @@ public class ProjectileGui extends JPanel implements PropertyChangeListener {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(new ProjectileGui());
 		frame.pack();
-
+		frame.setLocation(540, 320);
 		frame.setVisible(true);
 	}
 }

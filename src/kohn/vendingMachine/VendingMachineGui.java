@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
@@ -24,81 +25,57 @@ public class VendingMachineGui extends JFrame implements ActionListener {
 	private double price;
 	private double paid;
 
-	private double quarters;
-	private double dimes;
-	private double nickels;
-	private double pennies;
-
 	private JButton changeButton;
 
-	private JFormattedTextField priceField;
-	private JFormattedTextField paidField;
-	private JFormattedTextField quartersField;
-	private JFormattedTextField dimesField;
-	private JFormattedTextField nickelsField;
-	private JFormattedTextField penniesField;
+	private JTextField priceField;
+	private JTextField paidField;
+	private JTextField quartersField;
+	private JTextField dimesField;
+	private JTextField nickelsField;
+	private JTextField penniesField;
 
-	Change change;
+	
 
 	public VendingMachineGui() {
 
 		Change change = new Change(price, paid);
 		change.receiveChange();
 		
-		JLabel priceLabel = new JLabel("Price:");
-		JLabel paidLabel = new JLabel("Amt Paid:");
-		JLabel getQuarters = new JLabel("Quarters:");
-		JLabel getDimes = new JLabel("Dimes:");
-		JLabel getNickels = new JLabel("Nickels:");
-		JLabel getPennies = new JLabel("Pennies");
 
 		String getChange = "RETURN CHANGE";
 		changeButton = new JButton();
 		changeButton.setText(getChange);
 		changeButton.addActionListener(this);
 
-		priceField = new JFormattedTextField(price);
+		priceField = new JTextField();
 		priceField.setColumns(5);
-		priceField.setValue(price);
 		priceField.isFocusable();
 
-		paidField = new JFormattedTextField(paid);
+		paidField = new JTextField();
 		paidField.setColumns(5);
-		paidField.setValue(paid);
 
-		quartersField = new JFormattedTextField(quarters);
+		quartersField = new JTextField(change.getQuarters());
 		quartersField.setColumns(5);
-		quartersField.setValue(change.getQuarters());
 
-		dimesField = new JFormattedTextField(dimes);
+		dimesField = new JTextField(change.getDimes());
 		dimesField.setColumns(5);
-		dimesField.setValue(change.getDimes());
 
-		nickelsField = new JFormattedTextField(nickels);
+		nickelsField = new JTextField(change.getNickels());
 		nickelsField.setColumns(5);
-		nickelsField.setValue(change.getNickels());
 
-		penniesField = new JFormattedTextField(pennies);
+		penniesField = new JFormattedTextField(change.getPennies());
 		penniesField.setColumns(5);
-		penniesField.setValue(change.getPennies());
-		
 
-		priceLabel.setLabelFor(priceField);
-		paidLabel.setLabelFor(paidField);
-		getQuarters.setLabelFor(quartersField);
-		getDimes.setLabelFor(dimesField);
-		getNickels.setLabelFor(nickelsField);
-		getPennies.setLabelFor(penniesField);
 
 		JPanel labelPanel = new JPanel();
 		labelPanel.setLayout(new GridLayout(0, 1));
-		labelPanel.add(priceLabel);
-		labelPanel.add(paidLabel);
+		labelPanel.add(new JLabel("Price:"));	
+		labelPanel.add(new JLabel("Amt Paid:"));
 		labelPanel.add(changeButton);
-		labelPanel.add(getQuarters);
-		labelPanel.add(getDimes);
-		labelPanel.add(getNickels);
-		labelPanel.add(getPennies);
+		labelPanel.add(new JLabel("Quarters:"));
+		labelPanel.add(new JLabel("Dimes:"));
+		labelPanel.add(new JLabel("Nickels:"));
+		labelPanel.add(new JLabel("Pennies"));
 
 		JPanel fieldPanel = new JPanel();
 		fieldPanel.setLayout(new GridLayout(0, 1));
@@ -131,19 +108,15 @@ public class VendingMachineGui extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		double updatePrice = (double) priceField.getValue();
-		double updatePaid = (double) paidField.getValue();
+		double updatePrice = Double.parseDouble(priceField.getText());
+		double updatePaid = Double.parseDouble(paidField.getText());
 		Change receiveChange = new Change(updatePrice, updatePaid);
 		receiveChange.receiveChange();
-		double updateQ = receiveChange.getQuarters();
-		quartersField.setValue(new Double(updateQ));
-		double updateD = receiveChange.getDimes();
-		dimesField.setValue(new Double(updateD));
-		double updateN = receiveChange.getNickels();
-		nickelsField.setValue(new Double(updateN));
-		double updateP = receiveChange.getPennies();
-		penniesField.setValue(new Double(updateP));
 
+		quartersField.setText(Integer.toString(receiveChange.getQuarters()));		
+		dimesField.setText(Integer.toString(receiveChange.getDimes()));	
+		nickelsField.setText(Integer.toString(receiveChange.getNickels()));
+		penniesField.setText(Integer.toString(receiveChange.getPennies()));
 	}
 
 	public static void main(String[] args) {

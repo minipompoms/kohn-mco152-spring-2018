@@ -96,8 +96,4 @@ public class DictionaryGui extends JPanel implements ActionListener{
 		
 	}
 	
-	public static void displayGUI()
-	{
-		
-	}
 }
