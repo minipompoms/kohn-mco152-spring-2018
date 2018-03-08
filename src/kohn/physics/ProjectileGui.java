@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 @SuppressWarnings("serial")
@@ -23,13 +24,6 @@ public class ProjectileGui extends JPanel implements PropertyChangeListener {
 
 	private double x;
 	private double y;
-	Projectile projectile;
-
-	private String angleStr = "Angle:";
-	private String velocityStr = "Velocity:";
-	private String timeStr = "Time:";
-	private String xStr = "X -> ";
-	private String yStr = "Y -> ";
 
 	private JFormattedTextField angleField;
 	private JFormattedTextField velocityField;
@@ -40,56 +34,30 @@ public class ProjectileGui extends JPanel implements PropertyChangeListener {
 	public ProjectileGui() {
 
 		super(new BorderLayout());
-		Projectile projectile = new Projectile(angle, velocity);
-
-		JLabel angleLabel = new JLabel(angleStr);
-		JLabel velocityLabel = new JLabel(velocityStr);
-		JLabel timeLabel = new JLabel(timeStr);
-		JLabel xLabel = new JLabel(xStr);
-		JLabel yLabel = new JLabel(yStr);
 
 		angleField = new JFormattedTextField(angle);
-		angleField.setColumns(5);
-		projectile.setAngle(72);
-		angleField.setValue(projectile.getAngle());
 		angleField.addPropertyChangeListener("value", this);
 
 		velocityField = new JFormattedTextField(velocity);
-		velocityField.setColumns(5);
-		projectile.setVelocity(23);
-		velocityField.setValue(projectile.getVelocity());
 		velocityField.addPropertyChangeListener("value", this);
 
 		timeField = new JFormattedTextField(time);
-		timeField.setColumns(5);
-		projectile.setTime(10);
-		timeField.setValue(projectile.getTime());
 		timeField.addPropertyChangeListener("value", this);
 
 		xField = new JFormattedTextField(x);
-		xField.setColumns(5);
-		xField.setValue(projectile.getX());
 		xField.setEditable(false);
 
 		yField = new JFormattedTextField(y);
-		yField.setColumns(5);
-		yField.setValue(projectile.getY());
 		yField.setEditable(false);
 
-		angleLabel.setLabelFor(angleField);
-		velocityLabel.setLabelFor(velocityField);
-		timeLabel.setLabelFor(timeField);
-		xLabel.setLabelFor(xField);
-		yLabel.setLabelFor(yField);
 
 		JPanel labelPane = new JPanel(new GridLayout(0, 1));
-
-		labelPane.add(angleLabel);
-		labelPane.add(velocityLabel);
-		labelPane.add(timeLabel);
+		labelPane.add(new JLabel("Angle:"));
+		labelPane.add(new JLabel("Velocity: "));
+		labelPane.add(new JLabel("Time:"));
 		labelPane.add(new JLabel(" "));
-		labelPane.add(xLabel);
-		labelPane.add(yLabel);
+		labelPane.add( new JLabel("X ->"));
+		labelPane.add(new JLabel("Y ->"));
 
 		JPanel fieldPane = new JPanel(new GridLayout(0, 1));
 		fieldPane.add(angleField);

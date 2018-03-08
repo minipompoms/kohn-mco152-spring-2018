@@ -1,4 +1,4 @@
-package kohn.vendingMachine;
+ 	package kohn.vendingMachine;
 
 import java.awt.BorderLayout;
 import java.awt.Button;
