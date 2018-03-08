@@ -15,6 +15,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import kohn.dictionary.DictionaryGui;
+
 @SuppressWarnings("serial")
 public class ProjectileGui extends JPanel implements PropertyChangeListener {
 
@@ -56,7 +58,7 @@ public class ProjectileGui extends JPanel implements PropertyChangeListener {
 		labelPane.add(new JLabel("Velocity: "));
 		labelPane.add(new JLabel("Time:"));
 		labelPane.add(new JLabel(" "));
-		labelPane.add( new JLabel("X ->"));
+		labelPane.add(new JLabel("X ->"));
 		labelPane.add(new JLabel("Y ->"));
 
 		JPanel fieldPane = new JPanel(new GridLayout(0, 1));
@@ -70,7 +72,10 @@ public class ProjectileGui extends JPanel implements PropertyChangeListener {
 		setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
 		add(labelPane, BorderLayout.CENTER);
 		add(fieldPane, BorderLayout.LINE_END);
+		setLocation(540, 320);
+		setVisible(true);
 
+		
 	}
 
 	@Override
@@ -93,23 +98,16 @@ public class ProjectileGui extends JPanel implements PropertyChangeListener {
 		yField.setValue(new Double(updateY));
 	}
 
-
-
 	public static void main(String args[]) {
-
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				showGUI();
-			}
-		});
-	}
-	public static void showGUI() {
-
+		
 		JFrame frame = new JFrame("ProjectileGui");
+		
+		new ProjectileGui();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.add(new ProjectileGui());
-		frame.pack();
-		frame.setLocation(540, 320);
-		frame.setVisible(true);
+
+		
+	
+		
 	}
+
 }

@@ -24,7 +24,8 @@ public class Dictionary {
 	           while (scanner.hasNext()) {	  
 	        	   word = scanner.next();
 	        	   String definition =scanner.nextLine();
-        		   dictionary.put(word.toLowerCase(), definition);	        		   
+	        	  
+        		   dictionary.put(word.toLowerCase(), definition.trim());	        		   
  		
 	           }
 	        	  

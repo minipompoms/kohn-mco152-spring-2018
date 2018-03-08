@@ -29,31 +29,18 @@ public class DictionaryGui extends JPanel implements ActionListener{
 	
 	private JButton definitionButton;
 	
-	private String word;
-	private String definition;
-	
-	Dictionary dictionary;
-	
 	public DictionaryGui(String fileName) {
-			
-		Dictionary dictionary = new Dictionary(fileName);
-		
-		
-		wordField = new JFormattedTextField(word);
-		wordField.setColumns(18);
-		dictionary.setWord(" ");
-		wordField.setValue(dictionary.getWord());
-		wordField.isFocusable();
-		
 		
 		String getDefinition = "<- Define";
 		definitionButton = new JButton();
 		definitionButton.setText(getDefinition);
 		definitionButton.addActionListener(this);
 		
+		wordField = new JFormattedTextField();
+		wordField.setColumns(18);
+		wordField.isFocusable();	
+		
 		definitionArea = new JTextArea(12, 28);	
-		definition = dictionary.getDefinition(word);
-		definitionArea.setText(definition);
 		definitionArea.setLineWrap(true);
 		definitionArea.setWrapStyleWord(true);
 		
@@ -64,8 +51,7 @@ public class DictionaryGui extends JPanel implements ActionListener{
 		panel.add(wordField, BorderLayout.LINE_START);
 		panel.add(definitionButton, BorderLayout.LINE_END);
 		panel.add(definitionArea, BorderLayout.PAGE_END);
-		
-		
+			
 		add(panel);
 		
 		
@@ -74,7 +60,7 @@ public class DictionaryGui extends JPanel implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Dictionary dict = new Dictionary("src/dictionary.txt");
-		String updateWord = (String)wordField.getValue();
+		String updateWord = (String)wordField.getText();
 		dict.setWord(updateWord);		
 		String updateDefin = dict.getDefinition(updateWord);
 		definitionArea.setText(updateDefin);

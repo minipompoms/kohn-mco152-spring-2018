@@ -1,4 +1,4 @@
- 	package kohn.vendingMachine;
+package kohn.vendingMachine;
 
 import java.awt.BorderLayout;
 import java.awt.Button;
@@ -22,9 +22,6 @@ import javax.swing.border.Border;
 @SuppressWarnings("serial")
 public class VendingMachineGui extends JFrame implements ActionListener {
 
-	private double price;
-	private double paid;
-
 	private JButton changeButton;
 
 	private JTextField priceField;
@@ -34,13 +31,7 @@ public class VendingMachineGui extends JFrame implements ActionListener {
 	private JTextField nickelsField;
 	private JTextField penniesField;
 
-	
-
 	public VendingMachineGui() {
-
-		Change change = new Change(price, paid);
-		change.receiveChange();
-		
 
 		String getChange = "RETURN CHANGE";
 		changeButton = new JButton();
@@ -48,28 +39,16 @@ public class VendingMachineGui extends JFrame implements ActionListener {
 		changeButton.addActionListener(this);
 
 		priceField = new JTextField();
-		priceField.setColumns(5);
-		priceField.isFocusable();
-
 		paidField = new JTextField();
-		paidField.setColumns(5);
-
-		quartersField = new JTextField(change.getQuarters());
-		quartersField.setColumns(5);
-
-		dimesField = new JTextField(change.getDimes());
-		dimesField.setColumns(5);
-
-		nickelsField = new JTextField(change.getNickels());
-		nickelsField.setColumns(5);
-
-		penniesField = new JFormattedTextField(change.getPennies());
+		quartersField = new JTextField();
+		dimesField = new JTextField();
+		nickelsField = new JTextField();
+		penniesField = new JFormattedTextField();
 		penniesField.setColumns(5);
-
 
 		JPanel labelPanel = new JPanel();
 		labelPanel.setLayout(new GridLayout(0, 1));
-		labelPanel.add(new JLabel("Price:"));	
+		labelPanel.add(new JLabel("Price:"));
 		labelPanel.add(new JLabel("Amt Paid:"));
 		labelPanel.add(changeButton);
 		labelPanel.add(new JLabel("Quarters:"));
@@ -107,14 +86,15 @@ public class VendingMachineGui extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+
 		double updatePrice = Double.parseDouble(priceField.getText());
 		double updatePaid = Double.parseDouble(paidField.getText());
+		
 		Change receiveChange = new Change(updatePrice, updatePaid);
 		receiveChange.receiveChange();
 
-		quartersField.setText(Integer.toString(receiveChange.getQuarters()));		
-		dimesField.setText(Integer.toString(receiveChange.getDimes()));	
+		quartersField.setText(Integer.toString(receiveChange.getQuarters()));
+		dimesField.setText(Integer.toString(receiveChange.getDimes()));
 		nickelsField.setText(Integer.toString(receiveChange.getNickels()));
 		penniesField.setText(Integer.toString(receiveChange.getPennies()));
 	}
@@ -122,11 +102,9 @@ public class VendingMachineGui extends JFrame implements ActionListener {
 	public static void main(String[] args) {
 
 		VendingMachineGui display = new VendingMachineGui();
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				display.displayGUI();
-			}
-		});
+
+		display.displayGUI();
+
 	}
 
 }
