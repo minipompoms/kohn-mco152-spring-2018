@@ -2,6 +2,7 @@ package kohn.physics;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -14,11 +15,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
 
 import kohn.dictionary.DictionaryGui;
 
 @SuppressWarnings("serial")
-public class ProjectileGui extends JPanel implements PropertyChangeListener {
+public class ProjectileGui extends JFrame implements PropertyChangeListener {
 
 	private double angle;
 	private double velocity;
@@ -32,10 +34,10 @@ public class ProjectileGui extends JPanel implements PropertyChangeListener {
 	private JFormattedTextField timeField;
 	private JFormattedTextField xField;
 	private JFormattedTextField yField;
+	
+	Projectile projectile;
 
 	public ProjectileGui() {
-
-		super(new BorderLayout());
 
 		angleField = new JFormattedTextField(angle);
 		angleField.addPropertyChangeListener("value", this);
@@ -60,6 +62,7 @@ public class ProjectileGui extends JPanel implements PropertyChangeListener {
 		labelPane.add(new JLabel(" "));
 		labelPane.add(new JLabel("X ->"));
 		labelPane.add(new JLabel("Y ->"));
+		
 
 		JPanel fieldPane = new JPanel(new GridLayout(0, 1));
 		fieldPane.add(angleField);
@@ -68,13 +71,19 @@ public class ProjectileGui extends JPanel implements PropertyChangeListener {
 		fieldPane.add(new JLabel(" COORDINATES"));
 		fieldPane.add(xField);
 		fieldPane.add(yField);
-
-		setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+		
+		
+		Border border = BorderFactory.createEmptyBorder(20, 20, 20, 20);
+		setTitle("ProjectileGui");
+		labelPane.setBorder(border);
+		fieldPane.setBorder(border);
 		add(labelPane, BorderLayout.CENTER);
 		add(fieldPane, BorderLayout.LINE_END);
 		setLocation(540, 320);
-		setVisible(true);
-
+		setSize(290, 320);
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		
 	}
 
@@ -87,26 +96,17 @@ public class ProjectileGui extends JPanel implements PropertyChangeListener {
 			velocity = ((Number) velocityField.getValue()).doubleValue();
 			time = ((Number) timeField.getValue()).doubleValue();
 		}
-		Projectile updateProjectile = new Projectile(angle, velocity);
-		updateProjectile.setTime(time);
-
-		double updateTime = updateProjectile.getTime();
-		timeField.setValue(updateTime);
-		double updateX = updateProjectile.getX();
-		xField.setValue(new Double(updateX));
-		double updateY = updateProjectile.getY();
-		yField.setValue(new Double(updateY));
+		projectile = new Projectile(angle, velocity);
+		projectile.setTime(time);
+		timeField.setValue(projectile.getTime());
+		xField.setValue(projectile.getX());
+		yField.setValue(projectile.getY());
 	}
 
 	public static void main(String args[]) {
-		
-		JFrame frame = new JFrame("ProjectileGui");
-		
-		new ProjectileGui();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		
-	
+		new ProjectileGui().setVisible(true);;
+
 		
 	}
 

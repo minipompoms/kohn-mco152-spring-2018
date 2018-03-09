@@ -72,25 +72,21 @@ public class VendingMachineGui extends JFrame implements ActionListener {
 		fieldPanel.setBorder(border);
 		add(labelPanel, BorderLayout.CENTER);
 		labelPanel.setBorder(border);
+		pack();
+		
+		setLocation(500, 320);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+		
 	}
 
-	public void displayGUI() {
-		JFrame frame = (new VendingMachineGui());
-
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.pack();
-		frame.setVisible(true);
-		frame.setLocation(500, 320);
-	}
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		double updatePrice = Double.parseDouble(priceField.getText());
-		double updatePaid = Double.parseDouble(paidField.getText());
-		
-		Change receiveChange = new Change(updatePrice, updatePaid);
+		double updatePaid = Double.parseDouble(paidField.getText());	Change receiveChange = new Change(updatePrice, updatePaid);
 		receiveChange.receiveChange();
 
 		quartersField.setText(Integer.toString(receiveChange.getQuarters()));
@@ -101,9 +97,7 @@ public class VendingMachineGui extends JFrame implements ActionListener {
 
 	public static void main(String[] args) {
 
-		VendingMachineGui display = new VendingMachineGui();
-
-		display.displayGUI();
+		new VendingMachineGui().setVisible(true);
 
 	}
 
