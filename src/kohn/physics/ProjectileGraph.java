@@ -17,8 +17,7 @@ public class ProjectileGraph extends JComponent {
 		super.paintComponent(g);
 		
 		Projectile projectile = new Projectile(42, 99);
-		
-		
+				
 		g.translate(50, 300);
 		for(int ix = 0; ix < 10; ++ix) {
 			projectile.setTime(ix);
@@ -37,46 +36,66 @@ public class ProjectileGraph extends JComponent {
 			
 		
 		}
-		g.translate(50, 450);
-		Projectile p2 = new Projectile(40, 132);
-						
+		g.translate(50, 400);
+		projectile.setAngle(40);
+		projectile.setVelocity(88);						
 		for(int ix = 0; ix < 5; ix++) {
 			
-			p2.setTime(ix-.5);
-			int x = (int)p2.getX();
-			int y = (int)p2.getY();
+			projectile.setTime(ix-.5);
+			int x = (int)projectile.getX();
+			int y = (int)projectile.getY();
 			
-			p2.setTime(ix+.5);
-			int xx = (int)p2.getX();
-			int yy = (int)p2.getY();
+			projectile.setTime(ix+.5);
+			int xx = (int)projectile.getX();
+			int yy = (int)projectile.getY();
 			g.setColor(Color.green);
 			g.drawOval(x, -y, 10, 10);
 			g.fillOval(x, -y, 10, 10);
 			g.setColor(Color.DARK_GRAY);
 			g.drawLine(x, -y, xx, -yy );
 			g.setColor(Color.GRAY);
-			g.drawLine(x+2, -375, x+2, 50);
+			g.drawLine(x+2, -200, x+2, 50);
 			
-			p2.setTime(ix);
-			x = (int)p2.getX();
-			y = (int)p2.getY();
-			p2.setTime(ix+.5);
-			xx = (int)p2.getX();
-			yy = (int)p2.getY();
+			projectile.setTime(ix);
+			x = (int)projectile.getX();
+			y = (int)projectile.getY();
+			projectile.setTime(ix+.5);
+			xx = (int)projectile.getX();
+			yy = (int)projectile.getY();
 			g.setColor(Color.green);
 			g.drawOval(x, -y, 10, 10);
 			g.fillOval(x, -y, 10, 10);
 			g.setColor(Color.DARK_GRAY);
 			g.drawLine(x, -y, xx, -yy );
 			g.setColor(Color.GRAY);
-			g.drawLine(x+2, -375, x+2, 50);
+			g.drawLine(x+2, -200, x+2, 50);		
+		}
+		
+		g.translate(170, -75);
+		g.setColor(Color.LIGHT_GRAY);
+		g.fillRect(220, -250, 570, 420);
+		projectile.setAngle(44);
+		projectile.setVelocity(75);
+		for(int ix = 5; ix < 15; ++ix) {
+			projectile.setTime(ix+1);
+			int xx = (int)projectile.getX();
+			int yy = (int)projectile.getY();
+			projectile.setTime(ix);
+			int x = (int)projectile.getX();
+			int y = (int)projectile.getY();
+			g.setColor(Color.black);
+			g.drawOval(x, -y, 10, 10);
+			g.fillOval(x, -y, 10, 10);
+			if (ix < 13) {
+				g.setColor(Color.RED);
+				g.drawLine(x, -y, xx, -yy);
+			}			
+			g.setColor(Color.DARK_GRAY);
+			g.drawLine(x+2, -250, x+2, 170);	
 			
 			
 			
 		}
-		
-		
-		
 		
 	
 		 }

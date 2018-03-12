@@ -12,9 +12,9 @@ public class ProjectileGraphGui extends JFrame{
 		//hw 2: draw the coordinates(string)
 		
 		//hw 5: projectile image
-		//hw 6: multiple projectiles, 3 with different color lines, different numbers
+		
 		setTitle("Projectile Viewer");
-		setSize(1000, 1500);
+		setSize(1350, 1000);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
