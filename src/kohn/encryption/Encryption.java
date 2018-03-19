@@ -1,15 +1,18 @@
 package kohn.encryption;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Scanner;
 
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 public class Encryption {
@@ -17,7 +20,7 @@ public class Encryption {
 	private Cipher cipher;
 
 	public void encryption(String inputFile, String outputFile, String key) {
-
+		
 		try {
 
 			SecretKey secretKey = new SecretKeySpec(key.getBytes(), "AES");
@@ -31,13 +34,13 @@ public class Encryption {
 
 	}
 
-	public void decryption(String inputFile, String key) {
-		String outputFile = "File: " + inputFile + " decrypted";
-		Cipher cipher;
+	public void decryption(String inputFile, String outputFile, String key) {
+		outputFile = "File: " + inputFile + " decrypted";
+		IvParameterSpec iv = new IvParameterSpec(cipher.getIV());
 		SecretKey secretKey = new SecretKeySpec(key.getBytes(), "AES");
 		try {
 			cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-			cipher.init(Cipher.DECRYPT_MODE, secretKey);
+			cipher.init(Cipher.DECRYPT_MODE, secretKey, iv);
 			decrypt(new FileInputStream(inputFile), new FileOutputStream(outputFile), cipher);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -72,4 +75,5 @@ public class Encryption {
 		}
 	}
 
+	
 }
