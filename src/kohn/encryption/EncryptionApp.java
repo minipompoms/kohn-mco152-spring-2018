@@ -7,7 +7,6 @@ public class EncryptionApp {
 
 	public static void main(String [] args) {
 		Encryption e = new Encryption();
-		Scanner scanner = new Scanner(System.in);
 		String inputFile = "src/doc.txt";
 		String encryptedFile = "docEncrypt.txt";
 		String decryptedFile = "docDecrypt.txt";
@@ -18,7 +17,7 @@ public class EncryptionApp {
 			e.encryption(inputFile, encryptedFile, key);
 			e.decryption(encryptedFile, decryptedFile, key);
 			
-		} catch (Exception exc) {
+		} catch (EncryptionException exc) {
 			exc.printStackTrace();
 		}
 	}
