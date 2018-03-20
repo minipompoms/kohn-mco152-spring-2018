@@ -26,10 +26,10 @@ public class Encryption {
 	private String extension;
 
 	public Encryption(String inputFile, String password) {
-
+	
 		if (setPassword(password))
 			this.password = password;
-		if (file.exists()) {
+		if (new File(inputFile).exists()) {
 			this.file = new File(inputFile);
 		}
 	}
@@ -99,7 +99,6 @@ public class Encryption {
 			}
 			input.close();
 			output.close();
-
 		} catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException
 				| InvalidAlgorithmParameterException | IOException e) {
 			e.getMessage();
@@ -117,6 +116,7 @@ public class Encryption {
 	}
 
 	private File getOutputFile(String outputFile) {
+		
 		File temp = new File(outputFile);
 		int counter = 1;
 		while (temp.exists()) {
