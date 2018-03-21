@@ -26,21 +26,18 @@ public class Encryption {
 	private String extension;
 	private String iVector = "=mqz*fT^%Po!!j.?";
 
-	public Encryption(String inputFile, String password) {
-	
-		if (setPassword(password))
-			this.password = password;
+	public Encryption(String inputFile) {
+
 		if (new File(inputFile).exists()) {
 			this.file = new File(inputFile);
 		}
-		
-		String x = file.getAbsolutePath();		
-		x = x.substring((x.lastIndexOf('/')+1));		
+
+		String x = file.getAbsolutePath();
+		x = x.substring((x.lastIndexOf('/') + 1));
 		this.extension = x.substring(x.indexOf("."));
 	}
 
 	public void encryption(String inputFile, String outputFile) {
-
 		try {
 			encrypt(new FileInputStream(inputFile));
 		} catch (FileNotFoundException e) {
@@ -49,7 +46,6 @@ public class Encryption {
 	}
 
 	public void decryption(String inputFile) {
-
 		try {
 			decrypt(new FileInputStream(inputFile));
 		} catch (FileNotFoundException e) {
@@ -59,11 +55,11 @@ public class Encryption {
 
 	private void encrypt(InputStream input) {
 		OutputStream output;
-		
+
 		try {
 			input = new FileInputStream(file);
 			String fileName = file.getAbsolutePath();
-			file = checkFileExists(fileName);			
+			file = checkFileExists(fileName);
 			output = new FileOutputStream(file);
 			byte[] setKey = password.getBytes();
 			SecretKey secretKey = new SecretKeySpec(setKey, "AES");
@@ -88,11 +84,11 @@ public class Encryption {
 
 	private void decrypt(InputStream input) {
 		CipherInputStream outputFile = null;
-		
+
 		try {
 			input = new FileInputStream(file);
 			String filePath = file.getAbsolutePath().substring(0, file.getAbsolutePath().lastIndexOf('.'));
-			file = checkFileExists(filePath+extension);
+			file = checkFileExists(filePath + extension);
 			OutputStream output = new FileOutputStream(file);
 
 			byte setKey[] = password.getBytes();
@@ -100,14 +96,14 @@ public class Encryption {
 			Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
 			cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iVector.getBytes()));
 			outputFile = new CipherInputStream(input, cipher);
-			
+
 			int read;
 			byte[] write = new byte[1024];
 			while ((read = input.read(write)) > 0) {
 				output.write(write, 0, read);
-				
+
 			}
-			
+
 			input.close();
 			output.close();
 			outputFile.close();
@@ -119,16 +115,16 @@ public class Encryption {
 	}
 
 	public boolean setPassword(String validate) {
-		
-		this.password = validate;
+
 		if (!validate.contains(String.valueOf(' ')) || validate.length() <= 16) {
 			return false;
 		}
+		this.password = validate;
 		return setPassword(validate);
 	}
 
 	private File checkFileExists(String outputFile) {
-		
+
 		File renameFile = new File(outputFile);
 		int counter = 1;
 		while (renameFile.exists()) {
@@ -139,11 +135,11 @@ public class Encryption {
 	}
 
 	private String rename(int counter) {
-		
+
 		StringBuilder sb = new StringBuilder();
 
 		String name = file.getName();
-		name = name.substring(name.lastIndexOf('/')+1, name.lastIndexOf(name.substring(name.lastIndexOf('.'))));
+		name = name.substring(name.lastIndexOf('/') + 1, name.lastIndexOf(name.substring(name.lastIndexOf('.'))));
 		sb.append(name).append(counter).append(extension);
 		return sb.toString();
 	}
