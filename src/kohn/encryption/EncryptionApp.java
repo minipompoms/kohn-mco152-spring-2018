@@ -1,20 +1,19 @@
 package kohn.encryption;
 
-import java.io.File;
-import java.util.Scanner;
+
 
 public class EncryptionApp {
 
 	public static void main(String [] args) {
-		String inputFile = "src/doc.txt";
-		String encryptedFile = "docEncrypt.txt";
-		Encryption e = new Encryption(inputFile, encryptedFile);
-		
-		String decryptedFile = "docDecrypt.txt";
+		String inputFile = "doc.txt";
+		String encryptedFile = "doc1.txt";
 		String key = "shoeboxInspected";
+
+		Encryption e = new Encryption(inputFile, key);
+		
 	
-	
-		e.encryption(inputFile, encryptedFile);
-		e.decryption(encryptedFile, decryptedFile);
+		e.setPassword(key);
+		//e.encryption(inputFile, encryptedFile);
+		e.decryption(encryptedFile);
 	}
 }
