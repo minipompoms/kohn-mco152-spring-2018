@@ -1,5 +1,8 @@
 package kohn.encryption;
 
-public class EncryptionGUI {
+import javax.swing.JFrame;
+
+@SuppressWarnings("serial")
+public class EncryptionGUI extends JFrame {
 
 }

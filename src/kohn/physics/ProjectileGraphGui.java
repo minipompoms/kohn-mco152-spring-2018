@@ -24,10 +24,22 @@ public class ProjectileGraphGui extends JFrame{
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		
-		panel.add(new ProjectileGraph(), BorderLayout.CENTER);
-		
-		
+		AnimatedProjectileGraph projectileGraph = new AnimatedProjectileGraph();
+		panel.add(projectileGraph, BorderLayout.CENTER);
+
 		setContentPane(panel);
+		
+		Thread thread = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				while (true) {
+					projectileGraph.repaint();
+				}
+			}
+			
+		});
+		thread.start();
 	}
 	
 	public static void main(String args[]) {
