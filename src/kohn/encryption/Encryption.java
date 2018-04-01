@@ -26,18 +26,18 @@ public class Encryption {
 	private String extension;
 	private String iVector = "=mqz*fT^%Po!!j.?";
 
-	public Encryption(String inputFile) {
-
+	public Encryption(String inputFile, String password) {
+		
 		if (new File(inputFile).exists()) {
 			this.file = new File(inputFile);
 		}
-
+		setPassword(password);
 		String x = file.getAbsolutePath();
 		x = x.substring((x.lastIndexOf('/') + 1));
 		this.extension = x.substring(x.indexOf("."));
 	}
 
-	public void encryption(String inputFile, String outputFile) {
+	public void encryption(String inputFile) {
 		try {
 			encrypt(new FileInputStream(inputFile));
 		} catch (FileNotFoundException e) {
@@ -62,6 +62,7 @@ public class Encryption {
 			file = checkFileExists(fileName);
 			output = new FileOutputStream(file);
 			byte[] setKey = password.getBytes();
+		
 			SecretKey secretKey = new SecretKeySpec(setKey, "AES");
 			Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
 			cipher.init(Cipher.ENCRYPT_MODE, secretKey, new IvParameterSpec(iVector.getBytes()));
@@ -107,6 +108,7 @@ public class Encryption {
 			input.close();
 			output.close();
 			outputFile.close();
+			
 		} catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException
 				| InvalidAlgorithmParameterException | IOException e) {
 			e.getMessage();
@@ -115,12 +117,13 @@ public class Encryption {
 	}
 
 	public boolean setPassword(String validate) {
-
+		this.password = validate;
+		System.out.println(password);
 		if (!validate.contains(String.valueOf(' ')) || validate.length() <= 16) {
 			return false;
 		}
-		this.password = validate;
-		return setPassword(validate);
+		
+		return setPassword(password);
 	}
 
 	private File checkFileExists(String outputFile) {

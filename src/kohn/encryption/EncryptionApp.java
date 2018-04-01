@@ -8,12 +8,11 @@ public class EncryptionApp {
 		String inputFile = "doc.txt";
 		String encryptedFile = "doc1.txt";
 		String key = "shoeboxInspected";
-
-		Encryption e = new Encryption(inputFile);
-		
-	
+		Encryption e = new Encryption(inputFile, key);
 		e.setPassword(key);
-		e.encryption(inputFile, encryptedFile);
+
+		e.encryption(inputFile);
+
 		//e.decryption(encryptedFile);
 	}
 }
