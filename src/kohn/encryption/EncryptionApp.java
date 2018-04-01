@@ -1,5 +1,6 @@
 package kohn.encryption;
 
+import java.io.File;
 
 
 public class EncryptionApp {
@@ -8,11 +9,10 @@ public class EncryptionApp {
 		String inputFile = "doc.txt";
 		String encryptedFile = "doc1.txt";
 		String key = "shoeboxInspected";
-		Encryption e = new Encryption(inputFile, key);
-		e.setPassword(key);
-
-		e.encryption(inputFile);
-
-		//e.decryption(encryptedFile);
+		Encryption en = new Encryption();
+		//en.decrypt(encryptedFile);
+		en.encryption(inputFile);
+		//en.decryption(encryptedFile);
+		
 	}
 }

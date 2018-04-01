@@ -1,15 +1,10 @@
 package kohn.encryption;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.GridLayout;
+
 import java.awt.Image;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -19,7 +14,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
+
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -35,7 +30,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 @SuppressWarnings("serial")
-public class EncryptionGUI extends JFrame implements ActionListener {
+public class EncryptionGUI extends JFrame implements ActionListener, ChangeListener {
 	
 	private JTextField password;
 	private JTextField inputFile;
@@ -47,12 +42,21 @@ public class EncryptionGUI extends JFrame implements ActionListener {
 	private JButton exitButton;
 	private JButton startButton;
 	
+	private String mode;
 	private static JProgressBar progressBar;
 	
-	private File selectedFile;
-	Encryption encryption;
+	private String fileName = "doc1.txt";
+	private String pass = "shoeboxInspected";
+
+	
+	private File fileIn;
+	
+	Encryption encryption = new Encryption(fileName, pass);
+	
 	
 	public EncryptionGUI() {
+		
+		encryption.decryption(fileName);
 		inputFile = new JTextField();
 		inputButton = new JButton();
 		JLabel inputLabel = new JLabel("Select file:");
@@ -76,24 +80,76 @@ public class EncryptionGUI extends JFrame implements ActionListener {
 			e2.printStackTrace();
 		}
 	
-		inputButton.addActionListener(new ActionListener() {
-		      public void actionPerformed(ActionEvent e) {
-		        JFileChooser fc = new JFileChooser("src/");
-		        fc.isFileSelectionEnabled();
-		        
+//		inputButton.addActionListener(new ActionListener() {
+//		      public void actionPerformed(ActionEvent e) {
+//		        JFileChooser fc = new JFileChooser("src/");
+//		        fc.isFileSelectionEnabled();
+//		        
+//		        int returnValue = fc.showOpenDialog(null);
+//		        if (returnValue == JFileChooser.APPROVE_OPTION) {
+//		          fileIn = fc.getSelectedFile();
+//		          
+//		          inputFile.setText(fileIn.getName());
+//		          encryption = new Encryption(fileIn.getName(), password.getText());
+//
+//
+//		        }
+//		      }
+//		    });
+//		
+		
+	
+        
+        outputButton.addActionListener(new ActionListener() {
+        	
+        	public void actionPerformed(ActionEvent e) {
+        		JFileChooser fc = new JFileChooser("src/");
+        		System.out.println(mode);
+ 		        fc.isFileSelectionEnabled();
+ 		        
 		        int returnValue = fc.showOpenDialog(null);
 		        if (returnValue == JFileChooser.APPROVE_OPTION) {
-		          selectedFile = fc.getSelectedFile();
-		          
-		          inputFile.setText(selectedFile.getName());
-		          encryption = new Encryption(selectedFile.getName(), password.getText());
+			          fileIn = fc.getSelectedFile();			          
+			          outputFile.setText(fileName);			   
+			        }
+			      }        	
+        });
+       
+    	
+        passwordButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e)
+        	{
+        		 JOptionPane.showConfirmDialog(null, password, "Enter Your Password:", 
+        				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        		 password.setText(pass);
+        	}
+        	
+        });
+      
+        ChangeListener changeListener = new ChangeListener() {
+        	public void stateChanged(ChangeEvent event) {
+                JTabbedPane source = (JTabbedPane) event.getSource();
+                int index = source.getSelectedIndex();
+                 mode = source.getTitleAt(index);
+         	
+                
+        	}
+        	
+        };
 
-		        }
-		      }
-		    });
+		startButton = new JButton("Start");
 		
+		startButton.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+			encryption.decryption(fileName);
 		
+
+			}
+			
+		});		
 		
+
 		exitButton = new JButton("Exit");
 		exitButton.setSize(10,5);
         exitButton.addActionListener(new ActionListener() {
@@ -103,55 +159,6 @@ public class EncryptionGUI extends JFrame implements ActionListener {
             }
         });
         
-        passwordButton.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e)
-        	{
-        		 JOptionPane.showConfirmDialog(null, password, "Enter Your Password:", 
-        				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-
-        	}
-        	
-        });
-        
-        outputButton.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		JFileChooser fc = new JFileChooser("src/");
- 		        fc.isFileSelectionEnabled();
-		        int returnValue = fc.showOpenDialog(null);
-
-		        if (returnValue == JFileChooser.APPROVE_OPTION) {
-			          selectedFile = fc.getSelectedFile();
-			          
-			          outputFile.setText(selectedFile.getName());
-			          encryption = new Encryption(selectedFile.getName(), password.getText());
-			        }
-			      }        	
-        });
-        String[]mode = {"encrypt", "decrypt"};
-        for(int i = 0; i< mode.length; i++) {
-        	
-        }
-      
-        ChangeListener changeListener = new ChangeListener() {
-        	public void stateChanged(ChangeEvent event) {
-                JTabbedPane source = (JTabbedPane) event.getSource();
-                int index = source.getSelectedIndex();
-                System.out.println("Tab changed to: " + source.getTitleAt(index));
-            
-        	}
-        	
-        };
-        
-		startButton = new JButton("Start");
-		startButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			encryption.setPassword(password.getText());
-		    encryption.encryption(inputFile.getText());
-
-			}
-			
-		});		
-		
 
 		progressBar = new JProgressBar();
 		progressBar.setMinimum(0);
@@ -159,8 +166,8 @@ public class EncryptionGUI extends JFrame implements ActionListener {
 		
 		//progressBar.addPropertyChangeListener(listener);
 		
-		JTabbedPane tabbedPanel = new JTabbedPane();
-	    tabbedPanel.addChangeListener(changeListener);
+		JTabbedPane tabbedPane = new JTabbedPane();
+	    tabbedPane.addChangeListener(changeListener);
 		JPanel eTab = new JPanel();
 		JPanel dTab = new JPanel();
  		
@@ -172,9 +179,9 @@ public class EncryptionGUI extends JFrame implements ActionListener {
 		dTab.add(outputFile);		
 		dTab.add(outputButton);
 						
-		tabbedPanel.add("encrypt",eTab);
-		tabbedPanel.add("decrypt",dTab);
-		tabbedPanel.setBorder(BorderFactory.createEmptyBorder(30,30,30,30));
+		tabbedPane.add("encrypt",eTab);
+		tabbedPane.add("decrypt",dTab);
+		tabbedPane.setBorder(BorderFactory.createEmptyBorder(30,30,30,30));
 		//JPanel statusBar = new JPanel();
 		//statusBar.add(progressBar);
 		//statusBar.add(status);
@@ -185,9 +192,9 @@ public class EncryptionGUI extends JFrame implements ActionListener {
  		mainPanel.add(startButton);
 		
 	    Box box = new Box(BoxLayout.Y_AXIS);		
-	    tabbedPanel.setBorder(BorderFactory.createEmptyBorder(10, 40, 10, 40));
+	    tabbedPane.setBorder(BorderFactory.createEmptyBorder(10, 40, 10, 40));
 	    
-	    box.add(tabbedPanel);	    
+	    box.add(tabbedPane);	    
 	    box.add(mainPanel);
 				
 		
@@ -234,9 +241,12 @@ public class EncryptionGUI extends JFrame implements ActionListener {
 		      
 	 }
 	       
-	    
+
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		
+	}
 	
-	   
 	
 	
 	public static void main(String []args) {
