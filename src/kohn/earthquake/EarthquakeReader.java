@@ -1,4 +1,4 @@
-package kohn.earthquake;
+/*package kohn.earthquake;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -31,4 +31,4 @@ public class EarthquakeReader {
 		
 	
 	}
-}
+}*/

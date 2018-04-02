@@ -33,49 +33,48 @@ public class Encryption {
 	private String extension;
 	private String iVector = "=mqz*fT^%Po!!j.?";
 
-	public Encryption() {
+	public Encryption(String filePath, String password) {
+		setPassword(password);
+		this.password = password;
+		this.file = new File(filePath);
 	
 	}
 
-	public void encryption(String inputFile) {
-		try {
-			encrypt(new FileInputStream(inputFile));
-		} catch (FileNotFoundException e) {
-			e.getMessage();
-		}
+	public void startEncryption() {
+		encrypt();
+
+		
 	}
 
-	public void decryption(String inputFile) {
-		
-		File iFile = new File(inputFile);
-		setExtension(iFile);
-		decrypt(iFile);
+	public void startDecryption() {
+		decrypt();
 }
 
-	private void encrypt(InputStream input) {
-		OutputStream output;
+	private void encrypt() {
+		getExtension(file);
+
 
 		try {
-			input = new FileInputStream(file);
+			FileInputStream fis = new FileInputStream(file);
 			String fileName = file.getAbsolutePath();
-
 			file = checkFileExists(fileName);
-			output = new FileOutputStream(file);
+			FileOutputStream fos = new FileOutputStream(file);
+			
 			byte[] setKey = password.getBytes();
-
 			SecretKey secretKey = new SecretKeySpec(setKey, "AES");
+			
 			Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
 			cipher.init(Cipher.ENCRYPT_MODE, secretKey, new IvParameterSpec(iVector.getBytes()));
-			output = new CipherOutputStream(output, cipher);
-
-			int read = 0;
+			CipherOutputStream cstr = new CipherOutputStream(fos, cipher);
+			
 			byte[] write = new byte[1024];
-			input.read(write);
-			while ((read = input.read(write)) >= 0) {
-				output.write(write, 0, read);
+			int read ;
+			while ((read = fis.read(write)) != -1) {
+				cstr.write(write, 0, read);
 			}
-			input.close();
-			output.close();
+			fis.close();
+			cstr.flush();
+			cstr.close();
 		} catch (IOException | InvalidAlgorithmParameterException | InvalidKeyException | NoSuchAlgorithmException
 				| NoSuchPaddingException e) {
 			e.getMessage();
@@ -83,49 +82,44 @@ public class Encryption {
 
 	}
 
-	private void decrypt(File inputFile) {
-		this.file = inputFile;
-		FileInputStream fis = null;
-        FileOutputStream fos = null;
-		File dFile = null;
+	private void decrypt() {
+		getExtension(file);
+
 		try {
+			FileInputStream fis = new FileInputStream(file);
+			String fileName = file.getAbsolutePath().substring(0, file.getAbsolutePath().lastIndexOf('.'));
+			file = checkFileExists(fileName+extension);
+
+			//file = new File(file.getAbsolutePath().substring(0, file.getAbsolutePath().lastIndexOf('.')));
+	        FileOutputStream fos = new FileOutputStream(file);
 
 			byte keyPassword[] = password.getBytes();
 			SecretKeySpec secretKey = new SecretKeySpec(keyPassword, "AES");
 			Cipher decrypt = Cipher.getInstance("AES/CBC/PKCS5Padding");
 			decrypt.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iVector.getBytes()));
-			String fileName = file.getAbsolutePath().substring(0, file.getAbsolutePath().lastIndexOf('.'));
-			file = checkFileExists(fileName+extension);
-
-            fis = new FileInputStream(fileName);
             CipherInputStream cin = new CipherInputStream(fis, decrypt);
-			fos = new FileOutputStream(dFile);
-			copy(cin,fos);
-            
+            byte[] buffer = new byte[1024];  
+		     int read = 0;
+		     while((read = cin.read(buffer)) != -1)  {
+		        fos.write(buffer,0,read);  
+		     }
            
-
+		    cin.close();
 			fos.flush();
-			
+			fos.close();
 		} catch (Exception e) {
 			e.getMessage();
 		}
-
-
 	}
 	
 	
-	  private void copy(InputStream is,OutputStream os) throws Exception{
-		  byte[] buffer = new byte[1024];  
-		     int read = 0;
-		     while((read = is.read(buffer)) != -1)  //reading
-		        os.write(buffer,0,read);  //writing
-		  }
 	
-	private void setExtension(File file) {
+	private String getExtension(File file) {
 		
 		String x = file.getAbsolutePath();
 		x = x.substring((x.lastIndexOf('/') + 1));
 		this.extension = x.substring(x.indexOf("."));
+		return this.extension;
 	}
 
 	public boolean setPassword(String validate) {
