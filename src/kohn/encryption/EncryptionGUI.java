@@ -45,18 +45,17 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
 	private String mode;
 	private static JProgressBar progressBar;
 	
-	private String fileName = "doc1.txt";
-	private String pass = "shoeboxInspected";
+	private String fileName;
+	private String pass;
 
 	
 	private File fileIn;
 	
-	Encryption encryption = new Encryption(fileName, pass);
+	Encryption encryption;
 	
 	
 	public EncryptionGUI() {
 		
-		encryption.decryption(fileName);
 		inputFile = new JTextField();
 		inputButton = new JButton();
 		JLabel inputLabel = new JLabel("Select file:");
@@ -71,6 +70,8 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
 		password = new JPasswordField();
 		passwordButton = new JButton("Enter file password");
 		
+		startButton = new JButton("Start");
+		
 		
 		try {
 			Image searchImage = ImageIO.read(new File("src/kohn/encryption/file_icon.png"));
@@ -79,38 +80,34 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
 		}catch(IOException e2) {
 			e2.printStackTrace();
 		}
-	
-//		inputButton.addActionListener(new ActionListener() {
-//		      public void actionPerformed(ActionEvent e) {
-//		        JFileChooser fc = new JFileChooser("src/");
-//		        fc.isFileSelectionEnabled();
-//		        
-//		        int returnValue = fc.showOpenDialog(null);
-//		        if (returnValue == JFileChooser.APPROVE_OPTION) {
-//		          fileIn = fc.getSelectedFile();
-//		          
-//		          inputFile.setText(fileIn.getName());
-//		          encryption = new Encryption(fileIn.getName(), password.getText());
-//
-//
-//		        }
-//		      }
-//		    });
-//		
+			
 		
-	
+        inputButton.addActionListener(new ActionListener() {
+        	
+        	public void actionPerformed(ActionEvent e) {
+        		JFileChooser fc = new JFileChooser("src/");
+ 		        fc.isFileSelectionEnabled();
+ 		        
+		        int returnValue = fc.showOpenDialog(null);
+		        if (returnValue == JFileChooser.APPROVE_OPTION) {
+			          fileIn = fc.getSelectedFile();	
+			          fileName = fileIn.getName();
+			          inputFile.setText(fileName);	
+			        }
+			      }        	
+        });	
         
         outputButton.addActionListener(new ActionListener() {
         	
         	public void actionPerformed(ActionEvent e) {
         		JFileChooser fc = new JFileChooser("src/");
-        		System.out.println(mode);
  		        fc.isFileSelectionEnabled();
  		        
 		        int returnValue = fc.showOpenDialog(null);
 		        if (returnValue == JFileChooser.APPROVE_OPTION) {
-			          fileIn = fc.getSelectedFile();			          
-			          outputFile.setText(fileName);			   
+			          fileIn = fc.getSelectedFile();
+			          fileName = fileIn.getName();
+			          outputFile.setText(fileName);	
 			        }
 			      }        	
         });
@@ -121,10 +118,27 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
         	{
         		 JOptionPane.showConfirmDialog(null, password, "Enter Your Password:", 
         				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-        		 password.setText(pass);
+        		 pass = password.getText();
         	}
         	
         });
+        
+        startButton.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				
+			if (mode == "encrypt") {	
+				encryption = new Encryption(fileName, pass);
+				encryption.startEncryption();				
+			}
+			if (mode == "decrypt") {
+				encryption = new Encryption(fileName, pass);
+				encryption.startDecryption();
+			}
+
+			}
+			
+		});	
       
         ChangeListener changeListener = new ChangeListener() {
         	public void stateChanged(ChangeEvent event) {
@@ -137,17 +151,7 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
         	
         };
 
-		startButton = new JButton("Start");
-		
-		startButton.addActionListener(new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
-			encryption.decryption(fileName);
-		
-
-			}
-			
-		});		
+	
 		
 
 		exitButton = new JButton("Exit");

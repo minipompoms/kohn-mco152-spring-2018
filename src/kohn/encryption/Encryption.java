@@ -1,28 +1,17 @@
 package kohn.encryption;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
-import java.security.Key;
 import java.security.NoSuchAlgorithmException;
-
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
-import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -34,8 +23,9 @@ public class Encryption {
 	private String iVector = "=mqz*fT^%Po!!j.?";
 
 	public Encryption(String filePath, String password) {
-		setPassword(password);
+		
 		this.password = password;
+		
 		this.file = new File(filePath);
 	
 	}
@@ -123,12 +113,13 @@ public class Encryption {
 	}
 
 	public boolean setPassword(String validate) {
-		this.password = validate;
-		if (!validate.contains(String.valueOf(' ')) || validate.length() <= 16) {
+		validate = this.password;
+		if (!validate.contains(String.valueOf(' ')) || validate.length() <= 16){	
 			return false;
+				
 		}
 		
-		return setPassword(password);
+		return setPassword(this.password);
 	}
 
 	private File checkFileExists(String outputFile) {
