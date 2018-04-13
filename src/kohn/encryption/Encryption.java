@@ -80,7 +80,6 @@ public class Encryption {
 			String fileName = file.getAbsolutePath().substring(0, file.getAbsolutePath().lastIndexOf('.'));
 			file = checkFileExists(fileName+extension);
 
-			//file = new File(file.getAbsolutePath().substring(0, file.getAbsolutePath().lastIndexOf('.')));
 	        FileOutputStream fos = new FileOutputStream(file);
 
 			byte keyPassword[] = password.getBytes();

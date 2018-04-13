@@ -52,6 +52,8 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
 	private File fileIn;
 	
 	Encryption encryption;
+	//add password input validation
+	//add loading pop up
 	
 	
 	public EncryptionGUI() {
@@ -144,16 +146,11 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
         	public void stateChanged(ChangeEvent event) {
                 JTabbedPane source = (JTabbedPane) event.getSource();
                 int index = source.getSelectedIndex();
-                 mode = source.getTitleAt(index);
-         	
+                 mode = source.getTitleAt(index);         	
                 
-        	}
-        	
+        	}        	
         };
-
-	
 		
-
 		exitButton = new JButton("Exit");
 		exitButton.setSize(10,5);
         exitButton.addActionListener(new ActionListener() {
@@ -168,7 +165,6 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
 		progressBar.setMinimum(0);
 		progressBar.setMaximum(100);
 		
-		//progressBar.addPropertyChangeListener(listener);
 		
 		JTabbedPane tabbedPane = new JTabbedPane();
 	    tabbedPane.addChangeListener(changeListener);
@@ -215,16 +211,6 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
 		
 	}
 	
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-        
-	
-	}
-	
-	
-	
-	
 	 public void updateBar(int newValue) {
 		
 		 progressBar.setValue(newValue);
@@ -251,7 +237,11 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
 		
 	}
 	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+        
 	
+	}
 	
 	public static void main(String []args) {
 		
