@@ -31,7 +31,7 @@ public class EarthquakeRetrofitClient {
 						.stream()
 						.filter(e -> e.getProperties().getMag()>=5)
 						.count());
-				
+				System.exit(0); //do not add in GUI
 			}
 			
 			@Override
