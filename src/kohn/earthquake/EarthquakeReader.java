@@ -19,7 +19,7 @@ public class EarthquakeReader {
 					new FileReader(new File("src/kohn/earthquake/earthquakes.geojson")));
 					EarthquakeFeed feed = gson.fromJson(in, EarthquakeFeed.class);
 					//System.out.println(feed.getType());
-					//System.out.println(feed.getFeatures().size());
+					System.out.println(feed.getFeatures().size());
 					
 					System.out.println(feed.getFeatures()
 							.stream()

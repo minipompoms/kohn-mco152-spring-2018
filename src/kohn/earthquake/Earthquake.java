@@ -13,6 +13,4 @@ public class Earthquake {
 		return properties;
 	}
 	
-	
-	
 }

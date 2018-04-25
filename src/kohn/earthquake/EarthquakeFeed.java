@@ -6,6 +6,7 @@ public class EarthquakeFeed {
 
 	private String type;
 	private List<Earthquake> features;
+	
 
 	public String getType() {
 		return type;
@@ -14,5 +15,9 @@ public class EarthquakeFeed {
 	public List<Earthquake> getFeatures(){
 		return features;
 	}
+	
+	
+	
+	
 	
 }
