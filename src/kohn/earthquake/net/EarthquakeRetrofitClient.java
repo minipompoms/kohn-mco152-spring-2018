@@ -1,8 +1,7 @@
 package kohn.earthquake.net;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
+
 
 import kohn.earthquake.EarthquakeFeed;
 import retrofit2.Call;
@@ -17,14 +16,14 @@ public class EarthquakeRetrofitClient {
 		String day = "all_day.geojson";
 		String week = "all_week.geojson";
 		String hour = "all_hour.geojson";
-		
+
 		Retrofit retrofit = new Retrofit.Builder().baseUrl("https://earthquake.usgs.gov")
 				.addConverterFactory(GsonConverterFactory.create()).build();
 
 		USGSEarthquakeService service = retrofit.create(USGSEarthquakeService.class);
 
 		Call<EarthquakeFeed> call = service.getData(month);
-	
+
 		call.enqueue(new Callback<EarthquakeFeed>() {
 
 			@Override
@@ -34,9 +33,8 @@ public class EarthquakeRetrofitClient {
 
 				double magnitude = feed.getFeatures().get(maxIndex).getProperties().getMag();
 				String place = feed.getFeatures().get(maxIndex).getProperties().getPlace();
-				System.out.println('\n'+"MAG: "+magnitude+'\t'+place );
+				System.out.println('\n' + "MAG: " + magnitude + '\t' + place);
 			}
-	
 
 			@Override
 			public void onFailure(Call<EarthquakeFeed> call, Throwable t) {
@@ -45,92 +43,63 @@ public class EarthquakeRetrofitClient {
 			}
 
 		});
-		
+
 		call = service.getData(week);
 		call.enqueue(new Callback<EarthquakeFeed>() {
-		@Override
-		public void onResponse(Call<EarthquakeFeed> call, Response<EarthquakeFeed> response) {
-			EarthquakeFeed feed = response.body();
-			int maxIndex = getMax(call, response);
-
-			double magnitude = feed.getFeatures().get(maxIndex).getProperties().getMag();
-			String place = feed.getFeatures().get(maxIndex).getProperties().getPlace();
-			System.out.println('\n'+"MAG: "+magnitude+'\t'+place );
-		}
-
-
-		@Override
-		public void onFailure(Call<EarthquakeFeed> call, Throwable t) {
-			t.getMessage();
-
-		}
-
-	});
-		call = service.getData(day);
-		call.enqueue(new Callback<EarthquakeFeed>() {
-		@Override
-		public void onResponse(Call<EarthquakeFeed> call, Response<EarthquakeFeed> response) {
-			EarthquakeFeed feed = response.body();
-			int maxIndex = getMax(call, response);
-
-			double magnitude = feed.getFeatures().get(maxIndex).getProperties().getMag();
-			String place = feed.getFeatures().get(maxIndex).getProperties().getPlace();
-			System.out.println('\n'+"MAG: "+magnitude+'\t'+place );
-		}
-
-
-		@Override
-		public void onFailure(Call<EarthquakeFeed> call, Throwable t) {
-			t.getMessage();
-
-		}
-
-	});
-		
-		call = service.getData(hour);
-		call.enqueue(new Callback<EarthquakeFeed>() {
-		@Override
-		public void onResponse(Call<EarthquakeFeed> call, Response<EarthquakeFeed> response) {
-			EarthquakeFeed feed = response.body();
-			int maxIndex = getMax(call, response);
-
-			double magnitude = feed.getFeatures().get(maxIndex).getProperties().getMag();
-			String place = feed.getFeatures().get(maxIndex).getProperties().getPlace();
-			System.out.println('\n'+"MAG: "+magnitude+'\t'+place );
-		}
-
-
-		@Override
-		public void onFailure(Call<EarthquakeFeed> call, Throwable t) {
-			t.getMessage();
-
-		}
-
-	});
-
-		/*callM.enqueue(new Callback<EarthquakeFeed>() {
-
 			@Override
 			public void onResponse(Call<EarthquakeFeed> call, Response<EarthquakeFeed> response) {
-
 				EarthquakeFeed feed = response.body();
-				// System.out.println(feed.getFeatures().stream().filter(e ->
-				// e.getProperties().getMag() >= 5).count());
+				int maxIndex = getMax(call, response);
 
-				// do not add in GUI
+				double magnitude = feed.getFeatures().get(maxIndex).getProperties().getMag();
+				String place = feed.getFeatures().get(maxIndex).getProperties().getPlace();
+				System.out.println('\n' + "MAG: " + magnitude + '\t' + place);
 			}
 
 			@Override
 			public void onFailure(Call<EarthquakeFeed> call, Throwable t) {
-				t.printStackTrace();
+				t.getMessage();
+
 			}
 
-		});*/
+		});
+		call = service.getData(day);
+		call.enqueue(new Callback<EarthquakeFeed>() {
+			@Override
+			public void onResponse(Call<EarthquakeFeed> call, Response<EarthquakeFeed> response) {
+				EarthquakeFeed feed = response.body();
+				int maxIndex = getMax(call, response);
 
+				double magnitude = feed.getFeatures().get(maxIndex).getProperties().getMag();
+				String place = feed.getFeatures().get(maxIndex).getProperties().getPlace();
+				System.out.println('\n' + "MAG: " + magnitude + '\t' + place);
+			}
+
+			@Override
+			public void onFailure(Call<EarthquakeFeed> call, Throwable t) {
+				t.getMessage();
+			}
+		});
+
+		call = service.getData(hour);
+		call.enqueue(new Callback<EarthquakeFeed>() {
+			@Override
+			public void onResponse(Call<EarthquakeFeed> call, Response<EarthquakeFeed> response) {
+				EarthquakeFeed feed = response.body();
+				int maxIndex = getMax(call, response);
+
+				double magnitude = feed.getFeatures().get(maxIndex).getProperties().getMag();
+				String place = feed.getFeatures().get(maxIndex).getProperties().getPlace();
+				System.out.println('\n' + "MAG: " + magnitude + '\t' + place);
+			}
+
+			@Override
+			public void onFailure(Call<EarthquakeFeed> call, Throwable t) {
+				t.getMessage();
+			}
+		});
 	}
-	
-	
-	
+
 	public static int getMax(Call<EarthquakeFeed> call, Response<EarthquakeFeed> response) {
 		EarthquakeFeed feed = response.body();
 		int index = 0;

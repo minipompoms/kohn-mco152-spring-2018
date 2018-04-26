@@ -86,7 +86,8 @@ public class VendingMachineGui extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		double updatePrice = Double.parseDouble(priceField.getText());
-		double updatePaid = Double.parseDouble(paidField.getText());	Change receiveChange = new Change(updatePrice, updatePaid);
+		double updatePaid = Double.parseDouble(paidField.getText());	
+		Change receiveChange = new Change(updatePrice, updatePaid);
 		receiveChange.receiveChange();
 
 		quartersField.setText(Integer.toString(receiveChange.getQuarters()));

@@ -1,8 +1,6 @@
 package kohn.earthquake.net;
 
 
-import java.util.List;
-
 import kohn.earthquake.EarthquakeFeed;
 import retrofit2.Call;
 import retrofit2.http.GET;
