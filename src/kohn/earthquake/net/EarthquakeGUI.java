@@ -20,6 +20,10 @@ public class EarthquakeGUI extends JFrame implements ActionListener{
 	private JFormattedTextField  weeklyMag;
 	private JFormattedTextField  dailyMag;
 	
+	String month = "all_month.geojson";
+	String day = "all_day.geojson";
+	String week = "all_week.geojson";
+	String hour = "all_hour.geojson";
 	
 	
 	EarthquakeRetrofitClient earthquakeClient;
@@ -64,7 +68,8 @@ public class EarthquakeGUI extends JFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		earthquake
+		EarthquakeRetrofitClient eq = new EarthquakeRetrofitClient();
+		
 		
 	}
 	public static void main(String args[]) {
