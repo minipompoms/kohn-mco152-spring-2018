@@ -11,7 +11,7 @@ public interface USGSEarthquakeService {
 	
 	
 	@GET("/earthquakes/feed/v1.0/summary/{range}")
-	Call<EarthquakeFeed> getData(@Path("range") String month);
+	Call<EarthquakeFeed> getData(@Path("range") String range);
 	
 	
 	
