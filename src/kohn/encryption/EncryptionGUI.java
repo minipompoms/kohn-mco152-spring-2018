@@ -42,7 +42,7 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
 	private JButton startButton;
 
 	private String mode;
-	private static JProgressBar progressBar;
+	private JProgressBar progressBar;
 
 	private String fileName;
 	private String pass;
@@ -50,7 +50,6 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
 	private File fileIn;
 
 	Encryption encryption;
-	// add password input validation
 	// add loading pop up
 
 	public EncryptionGUI() {
@@ -81,7 +80,7 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
 		inputButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser fc = new JFileChooser("src/");
+				JFileChooser fc = new JFileChooser("/src/");
 				fc.isFileSelectionEnabled();
 
 				int returnValue = fc.showOpenDialog(null);
@@ -112,11 +111,8 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showConfirmDialog(null, password, "Enter Your Password:", JOptionPane.OK_CANCEL_OPTION,
 						JOptionPane.PLAIN_MESSAGE);
-
 				pass = password.getText();
-
 			}
-
 		});
 
 		startButton.addActionListener(new ActionListener() {
@@ -135,6 +131,8 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
 							"Invalid Password\n\nPassword requirements:\nMinimum of 16 Characters");
 					password.setText("");
 				}
+				
+								
 			}
 		});
 
