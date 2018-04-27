@@ -24,10 +24,8 @@ public class Encryption {
 
 	public Encryption(String filePath, String password) {
 		
-		this.password = password;
-		
-		this.file = new File(filePath);
-	
+		this.password = password;								
+		this.file = new File(filePath);	
 	}
 
 	public void startEncryption() {
@@ -111,14 +109,15 @@ public class Encryption {
 		return this.extension;
 	}
 
-	public boolean setPassword(String validate) {
-		validate = this.password;
-		if (!validate.contains(String.valueOf(' ')) || validate.length() <= 16){	
-			return false;
-				
+	public boolean validate(String key) {	
+		if (key.contains(String.valueOf(' ')) || key.length() < 16){	
+			return false;				
+		}
+		else{
+			this.password = key;
+			return true;
 		}
 		
-		return setPassword(this.password);
 	}
 
 	private File checkFileExists(String outputFile) {

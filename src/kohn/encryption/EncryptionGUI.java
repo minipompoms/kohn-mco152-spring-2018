@@ -112,21 +112,28 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showConfirmDialog(null, password, "Enter Your Password:", JOptionPane.OK_CANCEL_OPTION,
 						JOptionPane.PLAIN_MESSAGE);
+
 				pass = password.getText();
+
 			}
 
 		});
 
 		startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				encryption = new Encryption(fileName, pass);
 
-				if (mode == "encrypt") {
-					encryption = new Encryption(fileName, pass);
-					encryption.startEncryption();
-				}
-				if (mode == "decrypt") {
-					encryption = new Encryption(fileName, pass);
-					encryption.startDecryption();
+				if (encryption.validate(pass)) {
+					if (mode == "encrypt") {
+						encryption.startEncryption();
+					}
+					if (mode == "decrypt") {
+						encryption.startDecryption();
+					}
+				} else if (!encryption.validate(pass)) {
+					JOptionPane.showMessageDialog(EncryptionGUI.this,
+							"Invalid Password\n\nPassword requirements:\nMinimum of 16 Characters");
+					password.setText("");
 				}
 			}
 		});

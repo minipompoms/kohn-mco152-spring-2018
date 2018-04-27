@@ -9,6 +9,12 @@ public class EncryptionApp {
 		String encryptedFile = "a_test1.txt";
 		String key = "shoeboxInspected";
 		Encryption en = new Encryption(inputFile, key);
+		if(en.validate(key)) {
+			System.out.println("valid");
+		}
+		else {
+			System.out.println("invalid");
+		}
 		Encryption de = new Encryption(encryptedFile, key);
 		en.startEncryption();
 		de.startDecryption();
