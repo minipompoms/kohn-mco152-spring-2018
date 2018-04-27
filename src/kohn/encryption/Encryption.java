@@ -21,42 +21,39 @@ public class Encryption {
 	private File file;
 	private String extension;
 	private String iVector = "=mqz*fT^%Po!!j.?";
-
+//need password stored to be validated with input when using decrypt
 	public Encryption(String filePath, String password) {
-		
-		this.password = password;								
-		this.file = new File(filePath);	
+
+		this.password = password;
+		this.file = new File(filePath);
 	}
 
 	public void startEncryption() {
 		encrypt();
-
-		
 	}
 
 	public void startDecryption() {
 		decrypt();
-}
+	}
 
 	private void encrypt() {
-		getExtension(file);
-
+		setExtension(file);
 
 		try {
 			FileInputStream fis = new FileInputStream(file);
 			String fileName = file.getAbsolutePath();
-			file = checkFileExists(fileName);
+			file = generateFileName(fileName);
 			FileOutputStream fos = new FileOutputStream(file);
-			
+
 			byte[] setKey = password.getBytes();
 			SecretKey secretKey = new SecretKeySpec(setKey, "AES");
-			
+
 			Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
 			cipher.init(Cipher.ENCRYPT_MODE, secretKey, new IvParameterSpec(iVector.getBytes()));
 			CipherOutputStream cstr = new CipherOutputStream(fos, cipher);
-			
+
 			byte[] write = new byte[1024];
-			int read ;
+			int read;
 			while ((read = fis.read(write)) != -1) {
 				cstr.write(write, 0, read);
 			}
@@ -71,56 +68,54 @@ public class Encryption {
 	}
 
 	private void decrypt() {
-		getExtension(file);
+		setExtension(file);
 
 		try {
 			FileInputStream fis = new FileInputStream(file);
 			String fileName = file.getAbsolutePath().substring(0, file.getAbsolutePath().lastIndexOf('.'));
-			file = checkFileExists(fileName+extension);
+			file = generateFileName(fileName + extension);
 
-	        FileOutputStream fos = new FileOutputStream(file);
+			FileOutputStream fos = new FileOutputStream(file);
 
 			byte keyPassword[] = password.getBytes();
+		
 			SecretKeySpec secretKey = new SecretKeySpec(keyPassword, "AES");
 			Cipher decrypt = Cipher.getInstance("AES/CBC/PKCS5Padding");
 			decrypt.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iVector.getBytes()));
-            CipherInputStream cin = new CipherInputStream(fis, decrypt);
-            byte[] buffer = new byte[1024];  
-		     int read = 0;
-		     while((read = cin.read(buffer)) != -1)  {
-		        fos.write(buffer,0,read);  
-		     }
-           
-		    cin.close();
+			CipherInputStream cin = new CipherInputStream(fis, decrypt);
+			byte[] buffer = new byte[1024];
+			int read = 0;
+			while ((read = cin.read(buffer)) != -1) {
+				fos.write(buffer, 0, read);
+			}
+
+			cin.close();
 			fos.flush();
 			fos.close();
 		} catch (Exception e) {
 			e.getMessage();
 		}
 	}
-	
-	
-	
-	private String getExtension(File file) {
-		
+
+	private String setExtension(File file) {
+
 		String x = file.getAbsolutePath();
 		x = x.substring((x.lastIndexOf('/') + 1));
 		this.extension = x.substring(x.indexOf("."));
 		return this.extension;
 	}
 
-	public boolean validate(String key) {	
-		if (key.contains(String.valueOf(' ')) || key.length() < 16){	
-			return false;				
-		}
-		else{
+	public boolean validate(String key) {
+		if (key.contains(String.valueOf(' ')) || key.length() < 16) {
+			return false;
+		} else {
 			this.password = key;
 			return true;
 		}
-		
+
 	}
 
-	private File checkFileExists(String outputFile) {
+	private File generateFileName(String outputFile) {
 
 		File renameFile = new File(outputFile);
 		int counter = 1;
