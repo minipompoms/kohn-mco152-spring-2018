@@ -16,27 +16,29 @@ public class EarthquakeController {
 	private EarthquakeView view;
 	private USGSEarthquakeService service;
 	
+	
 	String month = "all_month.geojson";
 	String day = "all_day.geojson";
 	String week = "all_week.geojson";
 	String hour = "all_hour.geojson";
-	
-	Call<EarthquakeFeed> call = service.getData(hour);
 
 	public EarthquakeController(EarthquakeView view, USGSEarthquakeService service) {
 		this.view = view;
 		this.service = service;
 	}
-	
+
+
 	public void refreshData() {
-		requestEarthquakeFeed(service.getData(month), 
-				view.getMonthMagTextField(), 
-				view.getMonthLocTextField());
+		requestHour();	
+		requestDay();
+		requestWeek();
+		requestMonth();
 	}
 
+
 	private void requestEarthquakeFeed(Call<EarthquakeFeed>call,
-			JTextComponent magnitudeField,
-			JTextComponent locationField) {		
+			JTextComponent largestField) {	
+		
 		call.enqueue(new Callback<EarthquakeFeed>() {
 
 			@Override
@@ -45,13 +47,13 @@ public class EarthquakeController {
 				Optional<Earthquake> largest = feed.getFeatures()
 						.stream() //put this in earthquakefeed
 						.max(Comparator.comparing(e -> e.getProperties().getMag()));
+				
 				EarthquakeProperties properties = largest.get().getProperties();
 				
-				String magnitude = String.valueOf(properties.getMag());
-				view.getMonthMagTextField().setText(magnitude);
-				String location = String.valueOf(properties.getPlace());
-				view.getMonthLocTextField().setText(location);
+				String largestEQ = String.valueOf(properties.getMag()+" "+properties.getPlace());
+				largestField.setText(largestEQ);
 
+				
 			}
 
 			@Override
@@ -60,4 +62,26 @@ public class EarthquakeController {
 			}
 		});
 	}
+	public void requestHour()
+	{
+		requestEarthquakeFeed(service.getData(hour),
+				view.getLastHourTextField());
+	}
+	public void requestDay()
+	{
+		requestEarthquakeFeed(service.getData(day),
+				view.getLastDayTextField());
+	}
+	
+	public void requestWeek()
+	{
+		requestEarthquakeFeed(service.getData(week),
+				view.getLastWeekTextField());
+	}
+	public void requestMonth()
+	{
+		requestEarthquakeFeed(service.getData(month),
+				view.getLastMonthTextField());
+	}
+	
 }

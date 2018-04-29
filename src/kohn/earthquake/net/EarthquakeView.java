@@ -11,33 +11,37 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.text.JTextComponent;
 
+import kohn.earthquake.EarthquakeFeed;
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @SuppressWarnings("serial")
-public class EarthquakeView extends JFrame implements ActionListener {
+public class EarthquakeView extends JFrame {
 	//rename GUI to EarthquakeView
-	//Create class EarthquakeControler
+	//Create class EarthquakeController
 	
-	private JFormattedTextField hourlyMag;
-	private JFormattedTextField monthlyMag;
-	private JFormattedTextField weeklyMag;
-	private JFormattedTextField dailyMag;
+	private JTextField lastHour;
+	private JTextField lastMonth;
+	private JTextField lastWeek;
+	private JTextField lastDay;
 
-	private JFormattedTextField monthlyLoc;
-	private JFormattedTextField weeklyLoc;
 
 	String month = "all_month.geojson";
 	String day = "all_day.geojson";
 	String week = "all_week.geojson";
 	String hour = "all_hour.geojson";
 
-	
-	public EarthquakeView() {
+	Call<EarthquakeFeed>call;
 
+	public EarthquakeView() {
+		setLocation(540, 320);
+		setSize(540, 200);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel labelPane = new JPanel(new GridLayout(0, 1));
 		labelPane.add(new JLabel("Last Hour:"));
@@ -46,12 +50,16 @@ public class EarthquakeView extends JFrame implements ActionListener {
 		labelPane.add(new JLabel("Last Month:"));
 
 		JPanel magPane = new JPanel(new GridLayout(0, 1));
-		magPane.add(new JFormattedTextField(hourlyMag));
-		magPane.add(new JFormattedTextField(dailyMag));
-		magPane.add(new JFormattedTextField(weeklyMag));
-		monthlyMag = new JFormattedTextField();
-		monthlyMag.setColumns(12);
-		magPane.add(monthlyMag);
+		lastHour = new JTextField();
+		lastDay = new JTextField();
+		lastWeek = new JTextField();
+		lastMonth = new JTextField();
+
+		magPane.add(lastHour);
+		magPane.add(lastDay);
+		magPane.add(lastWeek);
+		magPane.add(lastMonth);
+		lastMonth.setColumns(28);
 
 		Border border = BorderFactory.createEmptyBorder(20, 20, 20, 20);
 		setTitle("Earthquake Feed");
@@ -61,40 +69,38 @@ public class EarthquakeView extends JFrame implements ActionListener {
 		add(labelPane, BorderLayout.LINE_START);
 
 		add(magPane, BorderLayout.LINE_END);
-		setLocation(540, 320);
-		setSize(540, 200);
-
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Retrofit retrofit = new Retrofit.Builder().baseUrl("https://earthquake.usgs.gov")
-				.addConverterFactory(GsonConverterFactory.create()).build();
-
+		
+		Retrofit retrofit = new Retrofit.Builder()
+				.baseUrl("https://earthquake.usgs.gov")
+				.addConverterFactory(GsonConverterFactory.create())
+				.build();
+		
 		USGSEarthquakeService service = retrofit.create(USGSEarthquakeService.class);
+
 		EarthquakeController controller = new EarthquakeController(this, service);
 
 		controller.refreshData();
-
-
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-
+	
+	
+	public JTextComponent getLastHourTextField() {
+		return lastHour;
 	}
 	
-	public JTextComponent getWeekMagTextField() {
-		return weeklyMag;
+	public JTextComponent getLastDayTextField() {
+		return lastDay;
+	}
+	
+	public JTextComponent getLastWeekTextField() {		
+		return lastWeek;
 	}
 
-	public JTextComponent getWeekLocTextField() {
-		return weeklyLoc;
+	public JTextComponent getLastMonthTextField() {
+		return lastMonth;
 	}
-	public JTextComponent getMonthMagTextField() {
-		return monthlyMag;
-	}
-
-	public JTextComponent getMonthLocTextField() {
-		return monthlyLoc;
-	}
+	
+	
 
 	public static void main(String args[]) {
 
