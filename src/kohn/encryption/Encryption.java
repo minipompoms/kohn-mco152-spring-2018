@@ -82,6 +82,10 @@ public class Encryption {
 			SecretKeySpec secretKey = new SecretKeySpec(keyPassword, "AES");
 			Cipher decrypt = Cipher.getInstance("AES/CBC/PKCS5Padding");
 			decrypt.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iVector.getBytes()));
+			if(secretKey.getEncoded().equals(keyPassword)) {
+				System.out.println("password true");
+
+			}
 			CipherInputStream cin = new CipherInputStream(fis, decrypt);
 			byte[] buffer = new byte[1024];
 			int read = 0;

@@ -95,7 +95,7 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
 		outputButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser fc = new JFileChooser("src/");
+				JFileChooser fc = new JFileChooser("/src/");
 				fc.isFileSelectionEnabled();
 
 				int returnValue = fc.showOpenDialog(null);

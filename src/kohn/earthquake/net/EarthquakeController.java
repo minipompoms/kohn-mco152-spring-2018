@@ -51,9 +51,7 @@ public class EarthquakeController {
 				EarthquakeProperties properties = largest.get().getProperties();
 				
 				String largestEQ = String.valueOf(properties.getMag()+" "+properties.getPlace());
-				largestField.setText(largestEQ);
-
-				
+				largestField.setText(largestEQ);				
 			}
 
 			@Override
