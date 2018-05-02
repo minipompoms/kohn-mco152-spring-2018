@@ -7,11 +7,15 @@ import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.DESedeKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -33,7 +37,9 @@ public class Encryption {
 	}
 
 	public void startDecryption() {
-		decrypt();
+	
+			decrypt();
+		
 	}
 
 	private void encrypt() {
@@ -67,7 +73,8 @@ public class Encryption {
 
 	}
 
-	private void decrypt() {
+	private void decrypt()  {
+	   
 		setExtension(file);
 
 		try {
@@ -82,10 +89,7 @@ public class Encryption {
 			SecretKeySpec secretKey = new SecretKeySpec(keyPassword, "AES");
 			Cipher decrypt = Cipher.getInstance("AES/CBC/PKCS5Padding");
 			decrypt.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iVector.getBytes()));
-			if(secretKey.getEncoded().equals(keyPassword)) {
-				System.out.println("password true");
-
-			}
+			
 			CipherInputStream cin = new CipherInputStream(fis, decrypt);
 			byte[] buffer = new byte[1024];
 			int read = 0;
@@ -96,7 +100,7 @@ public class Encryption {
 			cin.close();
 			fos.flush();
 			fos.close();
-		} catch (Exception e) {
+		} catch (InvalidKeyException | IOException | InvalidAlgorithmParameterException | NoSuchAlgorithmException | NoSuchPaddingException  e) {
 			e.getMessage();
 		}
 	}
@@ -139,5 +143,7 @@ public class Encryption {
 		sb.append(name).append(counter).append(extension);
 		return sb.toString();
 	}
+	
+	 
 
 }
