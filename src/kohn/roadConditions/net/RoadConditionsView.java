@@ -3,6 +3,9 @@ package kohn.roadConditions.net;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class RoadConditionsView {
 
 	private JTextField highLatLng;
@@ -12,6 +15,15 @@ public class RoadConditionsView {
 	
 	public RoadConditionsView() {
 		
+
+		Retrofit retrofit = new Retrofit.Builder()
+				.baseUrl("https://api.mogolinc.com")
+				.addConverterFactory(GsonConverterFactory.create())
+				.build();
+		MogolRoadConditionsService service = retrofit.create(MogolRoadConditionsService.class);
+		
+		RoadConditionsController controller = new RoadConditionsController(this, service);
+		controller.refreshData();
 	}
 	
 	public String getHighLatLng() {

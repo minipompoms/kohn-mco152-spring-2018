@@ -12,7 +12,7 @@ public interface MogolRoadConditionsService {
 		 "x-api-key", "{rsSl0syd6E5vhOHSEnCDc2Wt4sXCUtHT39IAXCAb}"
 	})
 	
-	@GET("https://api.mogolinc.com/conditions/region/{highLatLng}/{lowLatLng}\" -H \"x-api-key: {api key}")
+	@GET("/conditions/region/{highLatLng}/{lowLatLng}\" -H \"x-api-key: {api key}")
 	Call<RoadConditionsFeed>getData(@Path("highLatLng")String highLatLng, @Path("lowLatLng") String lowLatLng);
 }
 

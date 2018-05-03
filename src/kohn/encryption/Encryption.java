@@ -25,7 +25,8 @@ public class Encryption {
 	private File file;
 	private String extension;
 	private String iVector = "=mqz*fT^%Po!!j.?";
-//need password stored to be validated with input when using decrypt
+
+	// need password stored to be validated with input when using decrypt
 	public Encryption(String filePath, String password) {
 
 		this.password = password;
@@ -37,9 +38,9 @@ public class Encryption {
 	}
 
 	public void startDecryption() {
-	
-			decrypt();
-		
+
+		decrypt();
+
 	}
 
 	private void encrypt() {
@@ -73,8 +74,8 @@ public class Encryption {
 
 	}
 
-	private void decrypt()  {
-	   
+	private void decrypt() {
+
 		setExtension(file);
 
 		try {
@@ -85,11 +86,11 @@ public class Encryption {
 			FileOutputStream fos = new FileOutputStream(file);
 
 			byte keyPassword[] = password.getBytes();
-		
+
 			SecretKeySpec secretKey = new SecretKeySpec(keyPassword, "AES");
 			Cipher decrypt = Cipher.getInstance("AES/CBC/PKCS5Padding");
 			decrypt.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iVector.getBytes()));
-			
+
 			CipherInputStream cin = new CipherInputStream(fis, decrypt);
 			byte[] buffer = new byte[1024];
 			int read = 0;
@@ -100,7 +101,8 @@ public class Encryption {
 			cin.close();
 			fos.flush();
 			fos.close();
-		} catch (InvalidKeyException | IOException | InvalidAlgorithmParameterException | NoSuchAlgorithmException | NoSuchPaddingException  e) {
+		} catch (InvalidKeyException | IOException | InvalidAlgorithmParameterException | NoSuchAlgorithmException
+				| NoSuchPaddingException e) {
 			e.getMessage();
 		}
 	}
@@ -143,7 +145,5 @@ public class Encryption {
 		sb.append(name).append(counter).append(extension);
 		return sb.toString();
 	}
-	
-	 
 
 }

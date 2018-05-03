@@ -34,7 +34,8 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
 	private JTextField password;
 	private JTextField inputFile;
 	private JTextField outputFile;
-
+	private JTextField file;
+	
 	private JButton inputButton;
 	private JButton passwordButton;
 	private JButton outputButton;
@@ -64,6 +65,7 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
 		JLabel outputLabel = new JLabel("Select file:");
 		outputFile.setColumns(25);
 
+		JTextField file = new JTextField();
 		password = new JPasswordField();
 		passwordButton = new JButton("Enter file password");
 
@@ -87,6 +89,7 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
 				if (returnValue == JFileChooser.APPROVE_OPTION) {
 					fileIn = fc.getSelectedFile();
 					fileName = fileIn.getName();
+					file.setText(fileName);
 					inputFile.setText(fileName);
 				}
 			}
@@ -102,6 +105,8 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
 				if (returnValue == JFileChooser.APPROVE_OPTION) {
 					fileIn = fc.getSelectedFile();
 					fileName = fileIn.getName();
+					file.setText(fileName);
+
 					outputFile.setText(fileName);
 				}
 			}
@@ -114,25 +119,11 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
 				pass = password.getText();
 			}
 		});
+		EncryptionController controller = new EncryptionController(this, encryption);
 
 		startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				encryption = new Encryption(fileName, pass);
-
-				if (encryption.validate(pass)) {
-					if (mode == "encrypt") {
-						encryption.startEncryption();
-					}
-					if (mode == "decrypt") {
-						encryption.startDecryption();
-					}
-				} else if (!encryption.validate(pass)) {
-					JOptionPane.showMessageDialog(EncryptionGUI.this,
-							"Invalid Password\n\nPassword requirements:\nMinimum of 16 Characters");
-					password.setText("");
-				}
-				
-								
+				controller.requestAction(file, password);								
 			}
 		});
 
@@ -198,6 +189,8 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
 		setLocation(540, 320);
 		getPreferredSize();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		
 	}
 
 	public void updateBar(int newValue) {
@@ -219,6 +212,11 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
 		}
 
 	}
+	
+	public String getMode() {
+		return mode;
+	}
+	
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
