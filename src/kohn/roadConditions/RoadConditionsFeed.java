@@ -6,6 +6,8 @@ public class RoadConditionsFeed {
 	
 	private String type;
 	private List<RoadConditions>features;
+
+
 	
 	public String getType() {
 		return type;

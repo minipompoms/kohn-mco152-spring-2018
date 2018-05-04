@@ -1,6 +1,7 @@
 package kohn.roadConditions;
 
-
+//convert to maven project (configure) 
+//then add retrofit dependencies in the pom.xml file
 public class RoadConditions {
 
 	private String id;

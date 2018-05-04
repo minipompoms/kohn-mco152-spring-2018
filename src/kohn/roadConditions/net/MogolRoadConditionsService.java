@@ -9,11 +9,12 @@ import retrofit2.http.Path;
 public interface MogolRoadConditionsService {
 	
 	@Headers({
-		 "x-api-key", "{rsSl0syd6E5vhOHSEnCDc2Wt4sXCUtHT39IAXCAb}"
+		 "x-api-key", "rsSl0syd6E5vhOHSEnCDc2Wt4sXCUtHT39IAXCAb"
 	})
-	
-	@GET("/conditions/region/{highLatLng}/{lowLatLng}\" -H \"x-api-key: {api key}")
-	Call<RoadConditionsFeed>getData(@Path("highLatLng")String highLatLng, @Path("lowLatLng") String lowLatLng);
+	@GET("/conditions/region/{highLatLng}/{lowLatLng}")
+	Call<RoadConditionsFeed>getData(
+			@Path("highLatLng")String highLatLng, 
+			@Path("lowLatLng") String lowLatLng);
 }
 
 	
