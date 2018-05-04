@@ -35,7 +35,7 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
 	private JTextField inputFile;
 	private JTextField outputFile;
 	private JTextField file;
-	
+
 	private JButton inputButton;
 	private JButton passwordButton;
 	private JButton outputButton;
@@ -82,6 +82,7 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
 		inputButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+
 				JFileChooser fc = new JFileChooser("/src/");
 				fc.isFileSelectionEnabled();
 
@@ -98,6 +99,7 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
 		outputButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+
 				JFileChooser fc = new JFileChooser("/src/");
 				fc.isFileSelectionEnabled();
 
@@ -119,11 +121,10 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
 				pass = password.getText();
 			}
 		});
-		EncryptionController controller = new EncryptionController(this, encryption);
 
 		startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.requestAction(file, password);								
+				start();
 			}
 		});
 
@@ -190,7 +191,23 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
 		getPreferredSize();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		
+	}
+
+	private void start() {
+		encryption = new Encryption(fileName, pass);
+
+		if (encryption.validate(pass)) {
+			if (mode == "encrypt") {
+				encryption.startEncryption();
+			}
+			if (mode == "decrypt") {
+				encryption.startDecryption();
+			}
+		} else if (!encryption.validate(pass)) {
+			JOptionPane.showMessageDialog(EncryptionGUI.this,
+					"Invalid Password\n\nPassword requirements:\nMinimum of 16 Characters");
+			password.setText("");
+		}
 	}
 
 	public void updateBar(int newValue) {
@@ -212,11 +229,6 @@ public class EncryptionGUI extends JFrame implements ActionListener, ChangeListe
 		}
 
 	}
-	
-	public String getMode() {
-		return mode;
-	}
-	
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
