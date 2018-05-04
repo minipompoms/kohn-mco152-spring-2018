@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.text.JTextComponent;
 
-import kohn.earthquake.EarthquakeFeed;
+import kohn.earthquake.EarthquakeFeedModel;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -31,12 +31,12 @@ public class EarthquakeView extends JFrame {
 	private JTextField lastDay;
 
 
-	String month = "all_month.geojson";
-	String day = "all_day.geojson";
-	String week = "all_week.geojson";
-	String hour = "all_hour.geojson";
+	String month = "month";
+	String day = "day";
+	String week = "week";
+	String hour = "hour";
 
-	Call<EarthquakeFeed>call;
+	Call<EarthquakeFeedModel>call;
 
 	public EarthquakeView() {
 		setLocation(540, 320);

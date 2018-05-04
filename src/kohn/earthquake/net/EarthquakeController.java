@@ -6,7 +6,7 @@ import java.util.Optional;
 import javax.swing.text.JTextComponent;
 
 import kohn.earthquake.Earthquake;
-import kohn.earthquake.EarthquakeFeed;
+import kohn.earthquake.EarthquakeFeedModel;
 import kohn.earthquake.EarthquakeProperties;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,30 +36,34 @@ public class EarthquakeController {
 	}
 
 
-	private void requestEarthquakeFeed(Call<EarthquakeFeed>call,
+	private void requestEarthquakeFeed(Call<EarthquakeFeedModel>call,
 			JTextComponent largestField) {	
 		
-		call.enqueue(new Callback<EarthquakeFeed>() {
+		call.enqueue(new Callback<EarthquakeFeedModel>() {
 
 			@Override
-			public void onResponse(Call<EarthquakeFeed> call, Response<EarthquakeFeed> response) {
-				EarthquakeFeed feed = response.body();
-				Optional<Earthquake> largest = feed.getFeatures()
-						.stream() //put this in earthquakefeed
-						.max(Comparator.comparing(e -> e.getProperties().getMag()));
-				
-				EarthquakeProperties properties = largest.get().getProperties();
-				
-				String largestEQ = String.valueOf(properties.getMag()+" "+properties.getPlace());
-				largestField.setText(largestEQ);				
+			public void onResponse(Call<EarthquakeFeedModel> call, Response<EarthquakeFeedModel> response) {
+				EarthquakeFeedModel feed = response.body();
+				showLargestEarthquake(largestField, feed);				
 			}
-
 			@Override
-			public void onFailure(Call<EarthquakeFeed> call, Throwable t) {
+			public void onFailure(Call<EarthquakeFeedModel> call, Throwable t) {
 				t.printStackTrace();
 			}
 		});
 	}
+	
+	public void showLargestEarthquake(JTextComponent largestField, EarthquakeFeedModel feed) {
+		Optional<Earthquake> largest = feed.getFeatures()
+				.stream() //put this in earthquakefeed
+				.max(Comparator.comparing(e -> e.getProperties().getMag()));
+		
+		EarthquakeProperties properties = largest.get().getProperties();
+		
+		String largestEQ = String.valueOf(properties.getMag()+" "+properties.getPlace());
+		largestField.setText(largestEQ);
+	}
+	
 	public void requestHour()
 	{
 		requestEarthquakeFeed(service.getData(hour),

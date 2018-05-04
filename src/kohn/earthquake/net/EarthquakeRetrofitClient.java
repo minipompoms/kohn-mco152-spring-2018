@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.Optional;
 
 import kohn.earthquake.Earthquake;
-import kohn.earthquake.EarthquakeFeed;
+import kohn.earthquake.EarthquakeFeedModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,12 +26,12 @@ public class EarthquakeRetrofitClient {
 
 		USGSEarthquakeService service = retrofit.create(USGSEarthquakeService.class);
 
-		Call<EarthquakeFeed> call = service.getData(hour);
-		call.enqueue(new Callback<EarthquakeFeed>() {
+		Call<EarthquakeFeedModel> call = service.getData(hour);
+		call.enqueue(new Callback<EarthquakeFeedModel>() {
 
 			@Override
-			public void onResponse(Call<EarthquakeFeed> call, Response<EarthquakeFeed> response) {
-				EarthquakeFeed feed = response.body();
+			public void onResponse(Call<EarthquakeFeedModel> call, Response<EarthquakeFeedModel> response) {
+				EarthquakeFeedModel feed = response.body();
 				Optional<Earthquake> maxHour = feed.getFeatures().stream()
 						.max(Comparator.comparing(e -> e.getProperties().getMag()));
 				System.out.print(maxHour.get().getProperties().getMag() + "\t");
@@ -39,17 +39,17 @@ public class EarthquakeRetrofitClient {
 			}
 
 			@Override
-			public void onFailure(Call<EarthquakeFeed> call, Throwable t) {
+			public void onFailure(Call<EarthquakeFeedModel> call, Throwable t) {
 				t.printStackTrace();
 			}
 		});
 
 		call = service.getData(month);
-		call.enqueue(new Callback<EarthquakeFeed>() {
+		call.enqueue(new Callback<EarthquakeFeedModel>() {
 
 			@Override
-			public void onResponse(Call<EarthquakeFeed> call, Response<EarthquakeFeed> response) {
-				EarthquakeFeed feed = response.body();
+			public void onResponse(Call<EarthquakeFeedModel> call, Response<EarthquakeFeedModel> response) {
+				EarthquakeFeedModel feed = response.body();
 				Optional<Earthquake> maxMonth = feed.getFeatures().stream()
 						.max(Comparator.comparing(e -> e.getProperties().getMag()));
 				System.out.print(maxMonth.get().getProperties().getMag() + "\t");
@@ -57,17 +57,17 @@ public class EarthquakeRetrofitClient {
 			}
 
 			@Override
-			public void onFailure(Call<EarthquakeFeed> call, Throwable t) {
+			public void onFailure(Call<EarthquakeFeedModel> call, Throwable t) {
 				t.printStackTrace();
 			}
 		});
 
 		call = service.getData(week);
-		call.enqueue(new Callback<EarthquakeFeed>() {
+		call.enqueue(new Callback<EarthquakeFeedModel>() {
 
 			@Override
-			public void onResponse(Call<EarthquakeFeed> call, Response<EarthquakeFeed> response) {
-				EarthquakeFeed feed = response.body();
+			public void onResponse(Call<EarthquakeFeedModel> call, Response<EarthquakeFeedModel> response) {
+				EarthquakeFeedModel feed = response.body();
 				Optional<Earthquake> maxWeek = feed.getFeatures().stream()
 						.max(Comparator.comparing(e -> e.getProperties().getMag()));
 				System.out.print(maxWeek.get().getProperties().getMag() + "\t");
@@ -75,17 +75,17 @@ public class EarthquakeRetrofitClient {
 			}
 
 			@Override
-			public void onFailure(Call<EarthquakeFeed> call, Throwable t) {
+			public void onFailure(Call<EarthquakeFeedModel> call, Throwable t) {
 				t.printStackTrace();
 			}
 		});
 
 		call = service.getData(day);
-		call.enqueue(new Callback<EarthquakeFeed>() {
+		call.enqueue(new Callback<EarthquakeFeedModel>() {
 
 			@Override
-			public void onResponse(Call<EarthquakeFeed> call, Response<EarthquakeFeed> response) {
-				EarthquakeFeed feed = response.body();
+			public void onResponse(Call<EarthquakeFeedModel> call, Response<EarthquakeFeedModel> response) {
+				EarthquakeFeedModel feed = response.body();
 				Optional<Earthquake> maxDay = feed.getFeatures().stream()
 						.max(Comparator.comparing(e -> e.getProperties().getMag()));
 				System.out.print(maxDay.get().getProperties().getMag() + "\t");
@@ -93,7 +93,7 @@ public class EarthquakeRetrofitClient {
 			}
 
 			@Override
-			public void onFailure(Call<EarthquakeFeed> call, Throwable t) {
+			public void onFailure(Call<EarthquakeFeedModel> call, Throwable t) {
 				t.printStackTrace();
 			}
 		});
