@@ -1,3 +1,0 @@
-File created on Mon Apr 2
-
-Lets try the startEncryption methods. Again.
